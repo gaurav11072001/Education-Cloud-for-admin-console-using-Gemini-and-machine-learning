@@ -1,0 +1,10 @@
+course_id,title,technology,difficulty,duration_weeks,prerequisites,enrolled_count,rating,review_count,last_updated,price,description,is_ml_related
+1000,Programming Beginner,programming,Beginner,8,Basic Computer Knowledge|Problem Solving Skills,36561,4.7,776,2024-12-03,60.22,Learn modern programming languages and software development,False
+1001,Programming Intermediate,programming,Intermediate,11,Basic Computer Knowledge|Problem Solving Skills,3853,4.1,985,2025-01-27,158.43,Learn modern programming languages and software development,False
+1002,Programming Advanced,programming,Advanced,14,Basic Computer Knowledge|Problem Solving Skills,37753,4.1,667,2025-01-26,95.81,Learn modern programming languages and software development,False
+1003,Machine Learning Beginner,machine-learning,Beginner,13,Python|Mathematics|Statistics,49011,4.4,119,2025-01-01,60.37,Master machine learning and AI techniques,True
+1004,Machine Learning Intermediate,machine-learning,Intermediate,12,Python|Mathematics|Statistics,11122,4.0,174,2024-12-12,85.5,Master machine learning and AI techniques,True
+1005,Machine Learning Advanced,machine-learning,Advanced,16,Python|Mathematics|Statistics,7607,4.1,932,2025-01-22,191.92,Master machine learning and AI techniques,True
+1006,Data Science Beginner,data-science,Beginner,13,Mathematics|Programming Basics|Statistics,40264,4.7,384,2025-01-20,135.64,Learn data analysis and statistical methods,True
+1007,Data Science Intermediate,data-science,Intermediate,15,Mathematics|Programming Basics|Statistics,40579,4.4,527,2025-02-05,188.16,Learn data analysis and statistical methods,True
+1008,Data Science Advanced,data-science,Advanced,10,Mathematics|Programming Basics|Statistics,23554,4.2,693,2025-01-28,170.79,Learn data analysis and statistical methods,True

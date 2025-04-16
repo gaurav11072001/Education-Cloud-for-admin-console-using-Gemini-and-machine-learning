@@ -1,0 +1,1160 @@
+{
+    "courses": [
+        {
+            "id": 1000,
+            "title": "Python Beginner Course",
+            "technology": "python",
+            "difficulty": "Beginner",
+            "duration_weeks": 16,
+            "prerequisites": [
+                "Basic Programming",
+                "Computer Science Fundamentals"
+            ],
+            "enrolled_count": 13758,
+            "rating": 4.3,
+            "review_count": 755,
+            "last_updated": "2024-12-17",
+            "price": 150.76,
+            "topics": [
+                "Data Science",
+                "OOP",
+                "Web Development",
+                "Data Structures"
+            ],
+            "frameworks": [
+                "Flask",
+                "Django",
+                "NumPy"
+            ],
+            "curriculum": [
+                {
+                    "module_number": 1,
+                    "title": "Module 1: Data Science",
+                    "duration_hours": 3,
+                    "content_type": "Quiz",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 2,
+                    "title": "Module 2: Web Development",
+                    "duration_hours": 6,
+                    "content_type": "Video",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 3,
+                    "title": "Module 3: Data Structures",
+                    "duration_hours": 6,
+                    "content_type": "Quiz",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 4,
+                    "title": "Module 4: Web Development",
+                    "duration_hours": 6,
+                    "content_type": "Quiz",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 5,
+                    "title": "Module 5: Data Structures",
+                    "duration_hours": 5,
+                    "content_type": "Interactive",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 6,
+                    "title": "Module 6: Web Development",
+                    "duration_hours": 8,
+                    "content_type": "Interactive",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 7,
+                    "title": "Module 7: OOP",
+                    "duration_hours": 6,
+                    "content_type": "Quiz",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 8,
+                    "title": "Module 8: Data Science",
+                    "duration_hours": 3,
+                    "content_type": "Video",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 9,
+                    "title": "Module 9: Web Development",
+                    "duration_hours": 4,
+                    "content_type": "Quiz",
+                    "has_certificate": true
+                }
+            ],
+            "projects": [
+                "Machine Learning Model",
+                "Data Analysis",
+                "API Development"
+            ],
+            "learning_outcomes": [
+                "Master Web Development",
+                "Build projects using Django",
+                "Understand python best practices",
+                "Implement real-world python solutions"
+            ],
+            "skills_gained": [
+                "Data Structures",
+                "Algorithms",
+                "Django",
+                "Flask",
+                "python Development"
+            ]
+        },
+        {
+            "id": 1001,
+            "title": "Python Intermediate Course",
+            "technology": "python",
+            "difficulty": "Intermediate",
+            "duration_weeks": 15,
+            "prerequisites": [
+                "Basic Programming",
+                "Computer Science Fundamentals"
+            ],
+            "enrolled_count": 48620,
+            "rating": 4.9,
+            "review_count": 352,
+            "last_updated": "2025-01-24",
+            "price": 105.5,
+            "topics": [
+                "Web Development",
+                "Algorithms",
+                "OOP",
+                "Data Science"
+            ],
+            "frameworks": [
+                "FastAPI",
+                "TensorFlow",
+                "NumPy"
+            ],
+            "curriculum": [
+                {
+                    "module_number": 1,
+                    "title": "Module 1: Algorithms",
+                    "duration_hours": 6,
+                    "content_type": "Quiz",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 2,
+                    "title": "Module 2: OOP",
+                    "duration_hours": 6,
+                    "content_type": "Video",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 3,
+                    "title": "Module 3: Algorithms",
+                    "duration_hours": 6,
+                    "content_type": "Video",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 4,
+                    "title": "Module 4: Algorithms",
+                    "duration_hours": 5,
+                    "content_type": "Project",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 5,
+                    "title": "Module 5: OOP",
+                    "duration_hours": 5,
+                    "content_type": "Quiz",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 6,
+                    "title": "Module 6: Data Structures",
+                    "duration_hours": 7,
+                    "content_type": "Video",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 7,
+                    "title": "Module 7: Data Science",
+                    "duration_hours": 7,
+                    "content_type": "Interactive",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 8,
+                    "title": "Module 8: Data Science",
+                    "duration_hours": 6,
+                    "content_type": "Quiz",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 9,
+                    "title": "Module 9: OOP",
+                    "duration_hours": 7,
+                    "content_type": "Interactive",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 10,
+                    "title": "Module 10: Algorithms",
+                    "duration_hours": 3,
+                    "content_type": "Interactive",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 11,
+                    "title": "Module 11: OOP",
+                    "duration_hours": 7,
+                    "content_type": "Video",
+                    "has_certificate": true
+                }
+            ],
+            "projects": [
+                "API Development",
+                "Data Analysis",
+                "Machine Learning Model"
+            ],
+            "learning_outcomes": [
+                "Master Web Development",
+                "Build projects using Pandas",
+                "Understand python best practices",
+                "Implement real-world python solutions"
+            ],
+            "skills_gained": [
+                "Data Structures",
+                "Algorithms",
+                "Django",
+                "Flask",
+                "python Development"
+            ]
+        },
+        {
+            "id": 1002,
+            "title": "Python Advanced Course",
+            "technology": "python",
+            "difficulty": "Advanced",
+            "duration_weeks": 13,
+            "prerequisites": [
+                "Basic Programming",
+                "Computer Science Fundamentals"
+            ],
+            "enrolled_count": 25777,
+            "rating": 4.4,
+            "review_count": 912,
+            "last_updated": "2025-01-20",
+            "price": 52.46,
+            "topics": [
+                "Data Structures",
+                "Data Science",
+                "OOP",
+                "Web Development"
+            ],
+            "frameworks": [
+                "NumPy",
+                "FastAPI",
+                "Django"
+            ],
+            "curriculum": [
+                {
+                    "module_number": 1,
+                    "title": "Module 1: Data Structures",
+                    "duration_hours": 4,
+                    "content_type": "Video",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 2,
+                    "title": "Module 2: Data Science",
+                    "duration_hours": 3,
+                    "content_type": "Project",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 3,
+                    "title": "Module 3: Web Development",
+                    "duration_hours": 3,
+                    "content_type": "Interactive",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 4,
+                    "title": "Module 4: OOP",
+                    "duration_hours": 6,
+                    "content_type": "Quiz",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 5,
+                    "title": "Module 5: Data Structures",
+                    "duration_hours": 3,
+                    "content_type": "Interactive",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 6,
+                    "title": "Module 6: Algorithms",
+                    "duration_hours": 8,
+                    "content_type": "Interactive",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 7,
+                    "title": "Module 7: OOP",
+                    "duration_hours": 8,
+                    "content_type": "Quiz",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 8,
+                    "title": "Module 8: OOP",
+                    "duration_hours": 7,
+                    "content_type": "Project",
+                    "has_certificate": true
+                }
+            ],
+            "projects": [
+                "Machine Learning Model",
+                "API Development",
+                "Data Analysis"
+            ],
+            "learning_outcomes": [
+                "Master Algorithms",
+                "Build projects using Django",
+                "Understand python best practices",
+                "Implement real-world python solutions"
+            ],
+            "skills_gained": [
+                "Data Structures",
+                "Algorithms",
+                "Django",
+                "Flask",
+                "python Development"
+            ]
+        },
+        {
+            "id": 1003,
+            "title": "Javascript Beginner Course",
+            "technology": "javascript",
+            "difficulty": "Beginner",
+            "duration_weeks": 12,
+            "prerequisites": [
+                "HTML",
+                "CSS",
+                "Basic Programming"
+            ],
+            "enrolled_count": 40743,
+            "rating": 4.6,
+            "review_count": 117,
+            "last_updated": "2025-02-22",
+            "price": 107.56,
+            "topics": [
+                "DOM Manipulation",
+                "Async Programming",
+                "ES6+",
+                "Web APIs"
+            ],
+            "frameworks": [
+                "Node.js",
+                "Vue.js",
+                "React"
+            ],
+            "curriculum": [
+                {
+                    "module_number": 1,
+                    "title": "Module 1: Web APIs",
+                    "duration_hours": 8,
+                    "content_type": "Video",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 2,
+                    "title": "Module 2: Web APIs",
+                    "duration_hours": 3,
+                    "content_type": "Video",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 3,
+                    "title": "Module 3: DOM Manipulation",
+                    "duration_hours": 3,
+                    "content_type": "Project",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 4,
+                    "title": "Module 4: ES6+",
+                    "duration_hours": 6,
+                    "content_type": "Quiz",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 5,
+                    "title": "Module 5: DOM Manipulation",
+                    "duration_hours": 8,
+                    "content_type": "Quiz",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 6,
+                    "title": "Module 6: Web APIs",
+                    "duration_hours": 3,
+                    "content_type": "Interactive",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 7,
+                    "title": "Module 7: Async Programming",
+                    "duration_hours": 8,
+                    "content_type": "Project",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 8,
+                    "title": "Module 8: Web APIs",
+                    "duration_hours": 5,
+                    "content_type": "Video",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 9,
+                    "title": "Module 9: ES6+",
+                    "duration_hours": 3,
+                    "content_type": "Project",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 10,
+                    "title": "Module 10: DOM Manipulation",
+                    "duration_hours": 5,
+                    "content_type": "Video",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 11,
+                    "title": "Module 11: Frontend Development",
+                    "duration_hours": 5,
+                    "content_type": "Interactive",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 12,
+                    "title": "Module 12: ES6+",
+                    "duration_hours": 5,
+                    "content_type": "Interactive",
+                    "has_certificate": true
+                }
+            ],
+            "projects": [
+                "Real-time Applications",
+                "SPA Development",
+                "Interactive UI"
+            ],
+            "learning_outcomes": [
+                "Master Web APIs",
+                "Build projects using React",
+                "Understand javascript best practices",
+                "Implement real-world javascript solutions"
+            ],
+            "skills_gained": [
+                "DOM Manipulation",
+                "Async Programming",
+                "React",
+                "Vue.js",
+                "javascript Development"
+            ]
+        },
+        {
+            "id": 1004,
+            "title": "Javascript Intermediate Course",
+            "technology": "javascript",
+            "difficulty": "Intermediate",
+            "duration_weeks": 9,
+            "prerequisites": [
+                "HTML",
+                "CSS",
+                "Basic Programming"
+            ],
+            "enrolled_count": 26874,
+            "rating": 4.4,
+            "review_count": 668,
+            "last_updated": "2024-12-25",
+            "price": 86.97,
+            "topics": [
+                "Frontend Development",
+                "Async Programming",
+                "Web APIs",
+                "ES6+"
+            ],
+            "frameworks": [
+                "React",
+                "Express.js",
+                "Angular"
+            ],
+            "curriculum": [
+                {
+                    "module_number": 1,
+                    "title": "Module 1: DOM Manipulation",
+                    "duration_hours": 5,
+                    "content_type": "Quiz",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 2,
+                    "title": "Module 2: Async Programming",
+                    "duration_hours": 6,
+                    "content_type": "Video",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 3,
+                    "title": "Module 3: Web APIs",
+                    "duration_hours": 7,
+                    "content_type": "Video",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 4,
+                    "title": "Module 4: Web APIs",
+                    "duration_hours": 8,
+                    "content_type": "Quiz",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 5,
+                    "title": "Module 5: ES6+",
+                    "duration_hours": 5,
+                    "content_type": "Interactive",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 6,
+                    "title": "Module 6: ES6+",
+                    "duration_hours": 8,
+                    "content_type": "Project",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 7,
+                    "title": "Module 7: Async Programming",
+                    "duration_hours": 3,
+                    "content_type": "Video",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 8,
+                    "title": "Module 8: DOM Manipulation",
+                    "duration_hours": 4,
+                    "content_type": "Quiz",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 9,
+                    "title": "Module 9: Web APIs",
+                    "duration_hours": 6,
+                    "content_type": "Quiz",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 10,
+                    "title": "Module 10: Async Programming",
+                    "duration_hours": 8,
+                    "content_type": "Interactive",
+                    "has_certificate": true
+                }
+            ],
+            "projects": [
+                "Interactive UI",
+                "Real-time Applications",
+                "SPA Development"
+            ],
+            "learning_outcomes": [
+                "Master ES6+",
+                "Build projects using Express.js",
+                "Understand javascript best practices",
+                "Implement real-world javascript solutions"
+            ],
+            "skills_gained": [
+                "DOM Manipulation",
+                "Async Programming",
+                "React",
+                "Vue.js",
+                "javascript Development"
+            ]
+        },
+        {
+            "id": 1005,
+            "title": "Javascript Advanced Course",
+            "technology": "javascript",
+            "difficulty": "Advanced",
+            "duration_weeks": 15,
+            "prerequisites": [
+                "HTML",
+                "CSS",
+                "Basic Programming"
+            ],
+            "enrolled_count": 2410,
+            "rating": 4.4,
+            "review_count": 442,
+            "last_updated": "2024-12-03",
+            "price": 147.9,
+            "topics": [
+                "Web APIs",
+                "DOM Manipulation",
+                "Frontend Development",
+                "ES6+"
+            ],
+            "frameworks": [
+                "Node.js",
+                "React",
+                "Angular"
+            ],
+            "curriculum": [
+                {
+                    "module_number": 1,
+                    "title": "Module 1: Frontend Development",
+                    "duration_hours": 8,
+                    "content_type": "Interactive",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 2,
+                    "title": "Module 2: Async Programming",
+                    "duration_hours": 4,
+                    "content_type": "Interactive",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 3,
+                    "title": "Module 3: Async Programming",
+                    "duration_hours": 5,
+                    "content_type": "Interactive",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 4,
+                    "title": "Module 4: Web APIs",
+                    "duration_hours": 6,
+                    "content_type": "Quiz",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 5,
+                    "title": "Module 5: ES6+",
+                    "duration_hours": 7,
+                    "content_type": "Project",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 6,
+                    "title": "Module 6: ES6+",
+                    "duration_hours": 3,
+                    "content_type": "Quiz",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 7,
+                    "title": "Module 7: DOM Manipulation",
+                    "duration_hours": 3,
+                    "content_type": "Video",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 8,
+                    "title": "Module 8: ES6+",
+                    "duration_hours": 7,
+                    "content_type": "Video",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 9,
+                    "title": "Module 9: ES6+",
+                    "duration_hours": 8,
+                    "content_type": "Quiz",
+                    "has_certificate": false
+                }
+            ],
+            "projects": [
+                "Real-time Applications",
+                "SPA Development",
+                "Interactive UI"
+            ],
+            "learning_outcomes": [
+                "Master DOM Manipulation",
+                "Build projects using Angular",
+                "Understand javascript best practices",
+                "Implement real-world javascript solutions"
+            ],
+            "skills_gained": [
+                "DOM Manipulation",
+                "Async Programming",
+                "React",
+                "Vue.js",
+                "javascript Development"
+            ]
+        },
+        {
+            "id": 1006,
+            "title": "Data Science Intermediate Course",
+            "technology": "data_science",
+            "difficulty": "Intermediate",
+            "duration_weeks": 9,
+            "prerequisites": [
+                "Python",
+                "Mathematics",
+                "Statistics"
+            ],
+            "enrolled_count": 32458,
+            "rating": 4.9,
+            "review_count": 451,
+            "last_updated": "2024-12-21",
+            "price": 154.77,
+            "topics": [
+                "Deep Learning",
+                "Data Visualization",
+                "Statistics",
+                "Machine Learning"
+            ],
+            "frameworks": [
+                "Apache Spark",
+                "TensorFlow",
+                "Scikit-learn"
+            ],
+            "curriculum": [
+                {
+                    "module_number": 1,
+                    "title": "Module 1: Machine Learning",
+                    "duration_hours": 6,
+                    "content_type": "Video",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 2,
+                    "title": "Module 2: Big Data",
+                    "duration_hours": 6,
+                    "content_type": "Video",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 3,
+                    "title": "Module 3: Data Visualization",
+                    "duration_hours": 3,
+                    "content_type": "Project",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 4,
+                    "title": "Module 4: Data Visualization",
+                    "duration_hours": 3,
+                    "content_type": "Project",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 5,
+                    "title": "Module 5: Data Visualization",
+                    "duration_hours": 3,
+                    "content_type": "Interactive",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 6,
+                    "title": "Module 6: Machine Learning",
+                    "duration_hours": 8,
+                    "content_type": "Interactive",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 7,
+                    "title": "Module 7: Big Data",
+                    "duration_hours": 8,
+                    "content_type": "Quiz",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 8,
+                    "title": "Module 8: Deep Learning",
+                    "duration_hours": 3,
+                    "content_type": "Video",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 9,
+                    "title": "Module 9: Big Data",
+                    "duration_hours": 8,
+                    "content_type": "Quiz",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 10,
+                    "title": "Module 10: Data Visualization",
+                    "duration_hours": 7,
+                    "content_type": "Quiz",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 11,
+                    "title": "Module 11: Big Data",
+                    "duration_hours": 6,
+                    "content_type": "Video",
+                    "has_certificate": true
+                }
+            ],
+            "projects": [
+                "Neural Networks",
+                "Predictive Models",
+                "Data Analysis"
+            ],
+            "learning_outcomes": [
+                "Master Data Visualization",
+                "Build projects using Keras",
+                "Understand data science best practices",
+                "Implement real-world data science solutions"
+            ],
+            "skills_gained": [
+                "Statistics",
+                "Machine Learning",
+                "Scikit-learn",
+                "TensorFlow",
+                "data science Development"
+            ]
+        },
+        {
+            "id": 1007,
+            "title": "Data Science Advanced Course",
+            "technology": "data_science",
+            "difficulty": "Advanced",
+            "duration_weeks": 16,
+            "prerequisites": [
+                "Python",
+                "Mathematics",
+                "Statistics"
+            ],
+            "enrolled_count": 27934,
+            "rating": 4.6,
+            "review_count": 764,
+            "last_updated": "2024-12-26",
+            "price": 190.8,
+            "topics": [
+                "Deep Learning",
+                "Machine Learning",
+                "Big Data",
+                "Data Visualization"
+            ],
+            "frameworks": [
+                "Scikit-learn",
+                "PyTorch",
+                "TensorFlow"
+            ],
+            "curriculum": [
+                {
+                    "module_number": 1,
+                    "title": "Module 1: Data Visualization",
+                    "duration_hours": 4,
+                    "content_type": "Interactive",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 2,
+                    "title": "Module 2: Big Data",
+                    "duration_hours": 3,
+                    "content_type": "Interactive",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 3,
+                    "title": "Module 3: Deep Learning",
+                    "duration_hours": 7,
+                    "content_type": "Interactive",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 4,
+                    "title": "Module 4: Deep Learning",
+                    "duration_hours": 8,
+                    "content_type": "Project",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 5,
+                    "title": "Module 5: Big Data",
+                    "duration_hours": 7,
+                    "content_type": "Quiz",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 6,
+                    "title": "Module 6: Deep Learning",
+                    "duration_hours": 6,
+                    "content_type": "Interactive",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 7,
+                    "title": "Module 7: Data Visualization",
+                    "duration_hours": 5,
+                    "content_type": "Project",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 8,
+                    "title": "Module 8: Data Visualization",
+                    "duration_hours": 5,
+                    "content_type": "Quiz",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 9,
+                    "title": "Module 9: Deep Learning",
+                    "duration_hours": 7,
+                    "content_type": "Quiz",
+                    "has_certificate": false
+                }
+            ],
+            "projects": [
+                "Predictive Models",
+                "Neural Networks",
+                "Data Analysis"
+            ],
+            "learning_outcomes": [
+                "Master Deep Learning",
+                "Build projects using PyTorch",
+                "Understand data science best practices",
+                "Implement real-world data science solutions"
+            ],
+            "skills_gained": [
+                "Statistics",
+                "Machine Learning",
+                "Scikit-learn",
+                "TensorFlow",
+                "data science Development"
+            ]
+        },
+        {
+            "id": 1008,
+            "title": "Cloud Computing Intermediate Course",
+            "technology": "cloud_computing",
+            "difficulty": "Intermediate",
+            "duration_weeks": 15,
+            "prerequisites": [
+                "Networking",
+                "Linux",
+                "Basic Programming"
+            ],
+            "enrolled_count": 6470,
+            "rating": 4.1,
+            "review_count": 376,
+            "last_updated": "2024-12-17",
+            "price": 104.41,
+            "topics": [
+                "Microservices",
+                "Cloud Architecture",
+                "DevOps",
+                "Serverless"
+            ],
+            "frameworks": [
+                "Azure",
+                "AWS",
+                "Kubernetes"
+            ],
+            "curriculum": [
+                {
+                    "module_number": 1,
+                    "title": "Module 1: DevOps",
+                    "duration_hours": 7,
+                    "content_type": "Interactive",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 2,
+                    "title": "Module 2: Serverless",
+                    "duration_hours": 8,
+                    "content_type": "Project",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 3,
+                    "title": "Module 3: Microservices",
+                    "duration_hours": 3,
+                    "content_type": "Project",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 4,
+                    "title": "Module 4: Cloud Architecture",
+                    "duration_hours": 8,
+                    "content_type": "Quiz",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 5,
+                    "title": "Module 5: Cloud Architecture",
+                    "duration_hours": 8,
+                    "content_type": "Video",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 6,
+                    "title": "Module 6: Containerization",
+                    "duration_hours": 6,
+                    "content_type": "Interactive",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 7,
+                    "title": "Module 7: Serverless",
+                    "duration_hours": 5,
+                    "content_type": "Interactive",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 8,
+                    "title": "Module 8: DevOps",
+                    "duration_hours": 3,
+                    "content_type": "Interactive",
+                    "has_certificate": false
+                }
+            ],
+            "projects": [
+                "Serverless Apps",
+                "Container Orchestration",
+                "Cloud Deployment"
+            ],
+            "learning_outcomes": [
+                "Master Serverless",
+                "Build projects using Azure",
+                "Understand cloud computing best practices",
+                "Implement real-world cloud computing solutions"
+            ],
+            "skills_gained": [
+                "Cloud Architecture",
+                "DevOps",
+                "AWS",
+                "Azure",
+                "cloud computing Development"
+            ]
+        },
+        {
+            "id": 1009,
+            "title": "Cloud Computing Advanced Course",
+            "technology": "cloud_computing",
+            "difficulty": "Advanced",
+            "duration_weeks": 10,
+            "prerequisites": [
+                "Networking",
+                "Linux",
+                "Basic Programming"
+            ],
+            "enrolled_count": 17225,
+            "rating": 4.9,
+            "review_count": 885,
+            "last_updated": "2025-02-01",
+            "price": 84.54,
+            "topics": [
+                "Microservices",
+                "Cloud Architecture",
+                "DevOps",
+                "Serverless"
+            ],
+            "frameworks": [
+                "GCP",
+                "AWS",
+                "Docker"
+            ],
+            "curriculum": [
+                {
+                    "module_number": 1,
+                    "title": "Module 1: Cloud Architecture",
+                    "duration_hours": 4,
+                    "content_type": "Project",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 2,
+                    "title": "Module 2: DevOps",
+                    "duration_hours": 4,
+                    "content_type": "Project",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 3,
+                    "title": "Module 3: Cloud Architecture",
+                    "duration_hours": 8,
+                    "content_type": "Video",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 4,
+                    "title": "Module 4: Cloud Architecture",
+                    "duration_hours": 8,
+                    "content_type": "Interactive",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 5,
+                    "title": "Module 5: DevOps",
+                    "duration_hours": 7,
+                    "content_type": "Video",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 6,
+                    "title": "Module 6: DevOps",
+                    "duration_hours": 3,
+                    "content_type": "Video",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 7,
+                    "title": "Module 7: Microservices",
+                    "duration_hours": 3,
+                    "content_type": "Quiz",
+                    "has_certificate": false
+                },
+                {
+                    "module_number": 8,
+                    "title": "Module 8: Cloud Architecture",
+                    "duration_hours": 3,
+                    "content_type": "Video",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 9,
+                    "title": "Module 9: Microservices",
+                    "duration_hours": 5,
+                    "content_type": "Interactive",
+                    "has_certificate": true
+                },
+                {
+                    "module_number": 10,
+                    "title": "Module 10: DevOps",
+                    "duration_hours": 3,
+                    "content_type": "Video",
+                    "has_certificate": true
+                }
+            ],
+            "projects": [
+                "Container Orchestration",
+                "Cloud Deployment",
+                "Serverless Apps"
+            ],
+            "learning_outcomes": [
+                "Master Microservices",
+                "Build projects using Kubernetes",
+                "Understand cloud computing best practices",
+                "Implement real-world cloud computing solutions"
+            ],
+            "skills_gained": [
+                "Cloud Architecture",
+                "DevOps",
+                "AWS",
+                "Azure",
+                "cloud computing Development"
+            ]
+        }
+    ]
+}

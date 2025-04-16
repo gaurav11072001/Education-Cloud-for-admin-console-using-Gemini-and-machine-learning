@@ -1,0 +1,76 @@
+course_id,skill_name,is_ml_skill
+1000,Python,False
+1000,Java,False
+1000,JavaScript,False
+1000,C++,False
+1000,Ruby,False
+1000,Data Structures,False
+1000,Algorithms,False
+1000,OOP,False
+1000,Web Development,False
+1001,Python,False
+1001,Java,False
+1001,JavaScript,False
+1001,C++,False
+1001,Ruby,False
+1001,Data Structures,False
+1001,Algorithms,False
+1001,OOP,False
+1001,Web Development,False
+1002,Python,False
+1002,Java,False
+1002,JavaScript,False
+1002,C++,False
+1002,Ruby,False
+1002,Data Structures,False
+1002,Algorithms,False
+1002,OOP,False
+1002,Web Development,False
+1003,TensorFlow,True
+1003,PyTorch,True
+1003,Scikit-learn,True
+1003,Keras,True
+1003,Neural Networks,True
+1003,Deep Learning,True
+1003,NLP,True
+1003,Computer Vision,True
+1004,TensorFlow,True
+1004,PyTorch,True
+1004,Scikit-learn,True
+1004,Keras,True
+1004,Neural Networks,True
+1004,Deep Learning,True
+1004,NLP,True
+1004,Computer Vision,True
+1005,TensorFlow,True
+1005,PyTorch,True
+1005,Scikit-learn,True
+1005,Keras,True
+1005,Neural Networks,True
+1005,Deep Learning,True
+1005,NLP,True
+1005,Computer Vision,True
+1006,Pandas,True
+1006,NumPy,True
+1006,R,True
+1006,Matplotlib,True
+1006,Statistics,True
+1006,Data Analysis,True
+1006,Data Visualization,True
+1006,Big Data,True
+1007,Pandas,True
+1007,NumPy,True
+1007,R,True
+1007,Matplotlib,True
+1007,Statistics,True
+1007,Data Analysis,True
+1007,Data Visualization,True
+1007,Big Data,True
+1008,Pandas,True
+1008,NumPy,True
+1008,R,True
+1008,Matplotlib,True
+1008,Statistics,True
+1008,Data Analysis,True
+1008,Data Visualization,True
+1008,Big Data,True

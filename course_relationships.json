@@ -1,0 +1,118 @@
+{
+    "relationships": [
+        {
+            "course_id": 1000,
+            "related_courses": [
+                {
+                    "course_id": 1001,
+                    "similarity_score": 0.9
+                },
+                {
+                    "course_id": 1002,
+                    "similarity_score": 1.0
+                }
+            ]
+        },
+        {
+            "course_id": 1001,
+            "related_courses": [
+                {
+                    "course_id": 1000,
+                    "similarity_score": 0.9
+                },
+                {
+                    "course_id": 1002,
+                    "similarity_score": 0.9
+                }
+            ]
+        },
+        {
+            "course_id": 1002,
+            "related_courses": [
+                {
+                    "course_id": 1000,
+                    "similarity_score": 1.0
+                },
+                {
+                    "course_id": 1001,
+                    "similarity_score": 0.9
+                }
+            ]
+        },
+        {
+            "course_id": 1003,
+            "related_courses": [
+                {
+                    "course_id": 1004,
+                    "similarity_score": 1.0
+                },
+                {
+                    "course_id": 1005,
+                    "similarity_score": 1.0
+                }
+            ]
+        },
+        {
+            "course_id": 1004,
+            "related_courses": [
+                {
+                    "course_id": 1003,
+                    "similarity_score": 1.0
+                },
+                {
+                    "course_id": 1005,
+                    "similarity_score": 1.0
+                }
+            ]
+        },
+        {
+            "course_id": 1005,
+            "related_courses": [
+                {
+                    "course_id": 1003,
+                    "similarity_score": 1.0
+                },
+                {
+                    "course_id": 1004,
+                    "similarity_score": 1.0
+                }
+            ]
+        },
+        {
+            "course_id": 1006,
+            "related_courses": [
+                {
+                    "course_id": 1007,
+                    "similarity_score": 1.0
+                }
+            ]
+        },
+        {
+            "course_id": 1007,
+            "related_courses": [
+                {
+                    "course_id": 1006,
+                    "similarity_score": 1.0
+                }
+            ]
+        },
+        {
+            "course_id": 1008,
+            "related_courses": [
+                {
+                    "course_id": 1009,
+                    "similarity_score": 1.1
+                }
+            ]
+        },
+        {
+            "course_id": 1009,
+            "related_courses": [
+                {
+                    "course_id": 1008,
+                    "similarity_score": 1.1
+                }
+            ]
+        }
+    ]
+}

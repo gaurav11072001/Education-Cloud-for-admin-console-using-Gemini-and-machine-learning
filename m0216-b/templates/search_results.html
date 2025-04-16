@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Search Results | EduCloud AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .search-container {
+            margin: 2rem 0;
+        }
+        
+        .search-container form {
+            display: flex;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .search-container input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e1e1e1;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+        
+        .search-container button {
+            background: #6153CC;
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .search-container button:hover {
+            background: #4C42A5;
+        }
+        
+        .search-results {
+            margin: 2rem 0;
+        }
+        
+        .result-count {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #555;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 3rem 0;
+            color: #666;
+        }
+        
+        .course-category {
+            margin-bottom: 3rem;
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .course-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .course-icon {
+            width: 60px;
+            height: 60px;
+            background: #f0f3ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.8rem;
+            color: #6153CC;
+        }
+        
+        .course-info h2 {
+            margin: 0 0 0.5rem 0;
+            color: #333;
+        }
+        
+        .course-info p {
+            margin: 0;
+            color: #666;
+        }
+        
+        .difficulty-tabs {
+            display: flex;
+            border-bottom: 2px solid #f1f1f1;
+            margin-bottom: 1.5rem;
+        }
+        
+        .difficulty-tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            margin-right: 0.5rem;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .difficulty-tab.active {
+            color: #6153CC;
+            border-bottom-color: #6153CC;
+        }
+        
+        .difficulty-content {
+            display: none;
+        }
+        
+        .difficulty-content.active {
+            display: block;
+        }
+        
+        .course-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .course-link-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .course-link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .course-link-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .course-link-duration {
+            color: #6c757d;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .course-link-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: #FF5757;
+            color: white;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+            font-weight: 500;
+            margin-top: auto;
+            width: 100%;
+            box-sizing: border-box;
+            white-space: nowrap;
+        }
+        
+        .course-link-button:hover {
+            background: #E04242;
+        }
+        
+        .course-link-button i {
+            margin-right: 0.5rem;
+        }
+        
+        /* Video embed styles */
+        .video-embed {
+            margin-top: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            padding-top: 10px;
+        }
+        
+        .video-embed iframe {
+            border-radius: 8px;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Video error styles */
+        .video-error {
+            background-color: #f8f8f8;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 180px;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-error i {
+            font-size: 2rem;
+            color: #FF5757;
+            margin-bottom: 10px;
+        }
+
+        .video-error p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .course-link-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: #FF5757;
+            color: white;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+            font-weight: 500;
+            margin-top: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            white-space: nowrap;
+        }
+        
+        .course-link-button:hover {
+            background: #E04242;
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="floating-elements">
+        <i class="fas fa-graduation-cap floating"></i>
+        <i class="fas fa-book floating"></i>
+        <i class="fas fa-pencil-alt floating"></i>
+        <i class="fas fa-laptop-code floating"></i>
+        <i class="fas fa-calculator floating"></i>
+        <i class="fas fa-atom floating"></i>
+        <i class="fas fa-globe floating"></i>
+        <i class="fas fa-chart-line floating"></i>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-graduation-cap"></i>
+            <span>EduCloud AI</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('dashboard') }}" class="nav-link">
+                <i class="fas fa-home"></i> Dashboard
+            </a></li>
+            <li><a href="{{ url_for('resources') }}" class="nav-link">
+                <i class="fas fa-book"></i> Resources
+            </a></li>
+            <li><a href="{{ url_for('community') }}" class="nav-link">
+                <i class="fas fa-users"></i> Community
+            </a></li>
+        </ul>
+        <div class="nav-profile">
+            <span>Welcome, {{ username }}</span>
+            <a href="{{ url_for('logout') }}" class="logout-btn">
+                Logout <i class="fas fa-sign-out-alt"></i>
+            </a>
+        </div>
+    </nav>
+
+    <main class="dashboard-content">
+        <div class="container">
+            <div class="header">
+                <h1>Course Search Results</h1>
+                <p>Find the perfect course for your learning journey</p>
+            </div>
+
+            <div class="search-container">
+                <form action="{{ url_for('search_courses') }}" method="post">
+                    <input type="text" name="search_query" placeholder="Search for courses..." value="{{ search_query }}">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+
+            <div class="search-results">
+                {% if search_query %}
+                    {% if search_results|length > 0 %}
+                        <div class="result-count">
+                            <h3>Found {{ search_results|length }} course{% if search_results|length != 1 %}s{% endif %} for "{{ search_query }}"</h3>
+                        </div>
+                        
+                        {% for course in search_results %}
+                            <div class="course-category">
+                                <div class="course-header">
+                                    <div class="course-icon">
+                                        <i class="{{ course.icon }}"></i>
+                                    </div>
+                                    <div class="course-info">
+                                        <h2>{{ course.title }}</h2>
+                                        <p>{{ course.description }}</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="difficulty-tabs">
+                                    <div class="difficulty-tab active" data-target="{{ course.title|replace(' ', '') }}-beginner" onclick="openDifficulty(event, '{{ course.title|replace(' ', '') }}-beginner')">Beginner</div>
+                                    <div class="difficulty-tab" data-target="{{ course.title|replace(' ', '') }}-intermediate" onclick="openDifficulty(event, '{{ course.title|replace(' ', '') }}-intermediate')">Intermediate</div>
+                                    <div class="difficulty-tab" data-target="{{ course.title|replace(' ', '') }}-advanced" onclick="openDifficulty(event, '{{ course.title|replace(' ', '') }}-advanced')">Advanced</div>
+                                </div>
+                                
+                                <div id="{{ course.title|replace(' ', '') }}-beginner" class="difficulty-content active">
+                                    <div class="course-links">
+                                        {% for link in course.levels.Beginner %}
+                                            <div class="course-link-card">
+                                                <div class="course-link-title">{{ link.title }}</div>
+                                                <div class="course-link-duration">
+                                                    <i class="far fa-clock"></i> {{ link.duration }}
+                                                </div>
+                                                <div class="video-embed">
+                                                    {% set video_id = link.url.split('v=')[1].split('&')[0] if 'youtube.com/watch?v=' in link.url else link.url.split('/')[-1] if 'youtu.be/' in link.url else link.url.split('embed/')[-1] if 'youtube.com/embed/' in link.url else '' %}
+                                                    {% if video_id %}
+                                                        <div class="video-wrapper" data-video-id="{{ video_id }}">
+                                                            <div class="video-placeholder" onclick="loadVideo(this)" style="cursor: pointer; position: relative; background-color: #f2f2f2; height: 180px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                                                                <img src="https://i.ytimg.com/vi/{{ video_id }}/mqdefault.jpg" alt="{{ link.title }}" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; border-radius: 8px;">
+                                                                <div style="position: absolute; background: rgba(0,0,0,0.5); width: 60px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                                                    <i class="fab fa-youtube" style="color: #FF0000; font-size: 24px;"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a href="{{ link.url }}" class="course-link-button" target="_blank">
+                                                            <i class="fab fa-youtube"></i> Watch on YouTube
+                                                        </a>
+                                                    {% else %}
+                                                        <div class="video-error">
+                                                            <i class="fas fa-exclamation-circle"></i>
+                                                            <p>Unable to embed video</p>
+                                                            <a href="{{ link.url }}" class="course-link-button" target="_blank">
+                                                                <i class="fab fa-youtube"></i> Watch on YouTube
+                                                            </a>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                
+                                <div id="{{ course.title|replace(' ', '') }}-intermediate" class="difficulty-content">
+                                    <div class="course-links">
+                                        {% for link in course.levels.Intermediate %}
+                                            <div class="course-link-card">
+                                                <div class="course-link-title">{{ link.title }}</div>
+                                                <div class="course-link-duration">
+                                                    <i class="far fa-clock"></i> {{ link.duration }}
+                                                </div>
+                                                <div class="video-embed">
+                                                    {% set video_id = link.url.split('v=')[1].split('&')[0] if 'youtube.com/watch?v=' in link.url else link.url.split('/')[-1] if 'youtu.be/' in link.url else link.url.split('embed/')[-1] if 'youtube.com/embed/' in link.url else '' %}
+                                                    {% if video_id %}
+                                                        <div class="video-wrapper" data-video-id="{{ video_id }}">
+                                                            <div class="video-placeholder" onclick="loadVideo(this)" style="cursor: pointer; position: relative; background-color: #f2f2f2; height: 180px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                                                                <img src="https://i.ytimg.com/vi/{{ video_id }}/mqdefault.jpg" alt="{{ link.title }}" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; border-radius: 8px;">
+                                                                <div style="position: absolute; background: rgba(0,0,0,0.5); width: 60px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                                                    <i class="fab fa-youtube" style="color: #FF0000; font-size: 24px;"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a href="{{ link.url }}" class="course-link-button" target="_blank">
+                                                            <i class="fab fa-youtube"></i> Watch on YouTube
+                                                        </a>
+                                                    {% else %}
+                                                        <div class="video-error">
+                                                            <i class="fas fa-exclamation-circle"></i>
+                                                            <p>Unable to embed video</p>
+                                                            <a href="{{ link.url }}" class="course-link-button" target="_blank">
+                                                                <i class="fab fa-youtube"></i> Watch on YouTube
+                                                            </a>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                
+                                <div id="{{ course.title|replace(' ', '') }}-advanced" class="difficulty-content">
+                                    <div class="course-links">
+                                        {% for link in course.levels.Advanced %}
+                                            <div class="course-link-card">
+                                                <div class="course-link-title">{{ link.title }}</div>
+                                                <div class="course-link-duration">
+                                                    <i class="far fa-clock"></i> {{ link.duration }}
+                                                </div>
+                                                <div class="video-embed">
+                                                    {% set video_id = link.url.split('v=')[1].split('&')[0] if 'youtube.com/watch?v=' in link.url else link.url.split('/')[-1] if 'youtu.be/' in link.url else link.url.split('embed/')[-1] if 'youtube.com/embed/' in link.url else '' %}
+                                                    {% if video_id %}
+                                                        <div class="video-wrapper" data-video-id="{{ video_id }}">
+                                                            <div class="video-placeholder" onclick="loadVideo(this)" style="cursor: pointer; position: relative; background-color: #f2f2f2; height: 180px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                                                                <img src="https://i.ytimg.com/vi/{{ video_id }}/mqdefault.jpg" alt="{{ link.title }}" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; border-radius: 8px;">
+                                                                <div style="position: absolute; background: rgba(0,0,0,0.5); width: 60px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                                                    <i class="fab fa-youtube" style="color: #FF0000; font-size: 24px;"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a href="{{ link.url }}" class="course-link-button" target="_blank">
+                                                            <i class="fab fa-youtube"></i> Watch on YouTube
+                                                        </a>
+                                                    {% else %}
+                                                        <div class="video-error">
+                                                            <i class="fas fa-exclamation-circle"></i>
+                                                            <p>Unable to embed video</p>
+                                                            <a href="{{ link.url }}" class="course-link-button" target="_blank">
+                                                                <i class="fab fa-youtube"></i> Watch on YouTube
+                                                            </a>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="no-results">
+                            <i class="fas fa-search" style="font-size: 3rem; color: #ddd; margin-bottom: 1rem;"></i>
+                            <h3>No courses found for "{{ search_query }}"</h3>
+                            <p>Try a different search term or browse our course categories</p>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="no-results">
+                        <i class="fas fa-lightbulb" style="font-size: 3rem; color: #6153CC; margin-bottom: 1rem;"></i>
+                        <h3>Search for courses to get started</h3>
+                        <p>Try searching for topics like "Python", "Java", "React", "Digital Marketing", etc.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function openDifficulty(evt, difficultyName) {
+            const tabContent = document.getElementsByClassName("difficulty-content");
+            for (let i = 0; i < tabContent.length; i++) {
+                if (tabContent[i].id === difficultyName) {
+                    tabContent[i].className = tabContent[i].className.replace(" active", "");
+                    tabContent[i].className += " active";
+                } else if (tabContent[i].id.split('-').slice(0, -1).join('-') === difficultyName.split('-').slice(0, -1).join('-')) {
+                    tabContent[i].className = tabContent[i].className.replace(" active", "");
+                }
+            }
+            
+            const tabLinks = evt.currentTarget.parentElement.getElementsByClassName("difficulty-tab");
+            for (let i = 0; i < tabLinks.length; i++) {
+                if (tabLinks[i] === evt.currentTarget) {
+                    tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+                    tabLinks[i].className += " active";
+                } else {
+                    tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+                }
+            }
+        }
+
+        // Function to handle YouTube video errors
+        function handleVideoError(iframe) {
+            const container = iframe.closest('.video-embed');
+            const videoId = extractVideoId(iframe.src);
+            
+            container.innerHTML = `
+                <div class="video-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <p>Video is currently unavailable</p>
+                    <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank" class="course-link-button">
+                        <i class="fab fa-youtube"></i> Watch on YouTube
+                    </a>
+                </div>
+            `;
+        }
+
+        // Function to extract YouTube video ID from various URL formats
+        function extractVideoId(url) {
+            // If it's already an embed URL
+            if (url.includes('youtube.com/embed/')) {
+                return url.split('/embed/')[1].split('?')[0];
+            }
+            
+            let videoId = '';
+            
+            // Standard watch URL: https://www.youtube.com/watch?v=VIDEO_ID
+            if (url.includes('youtube.com/watch')) {
+                const urlParams = new URLSearchParams(url.split('?')[1]);
+                videoId = urlParams.get('v');
+            } 
+            // Short URL: https://youtu.be/VIDEO_ID
+            else if (url.includes('youtu.be/')) {
+                videoId = url.split('youtu.be/')[1].split('?')[0];
+            }
+            
+            return videoId;
+        }
+        
+        // Function to load video when thumbnail is clicked
+        function loadVideo(element) {
+            const wrapper = element.closest('.video-wrapper');
+            const videoId = wrapper.getAttribute('data-video-id');
+            
+            // Create iframe
+            const iframe = document.createElement('iframe');
+            iframe.width = '100%';
+            iframe.height = '180';
+            iframe.src = `https://www.youtube.com/embed/${videoId}`;
+            iframe.title = 'YouTube video player';
+            iframe.frameBorder = '0';
+            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+            iframe.allowFullscreen = true;
+            
+            // Replace placeholder with iframe
+            wrapper.innerHTML = '';
+            wrapper.appendChild(iframe);
+            
+            // Setup error handling for unavailable videos
+            iframe.onerror = function() {
+                handleVideoError(this);
+            };
+            
+            // Check if video loads properly
+            iframe.addEventListener('load', function() {
+                // The iframe loaded, but we can't directly detect if YouTube shows an error
+                // So we'll check after a moment if the user has interacted with it
+                setTimeout(function() {
+                    // If user has clicked elsewhere, assume video is playing or they decided to move on
+                }, 2000);
+            });
+        }
+
+        // Initialize videos when tab is clicked to avoid loading all at once
+        function initVideosInTab(tabId) {
+            const tab = document.getElementById(tabId);
+            if (!tab) return;
+            
+            const lazyIframes = tab.querySelectorAll('iframe[data-src]');
+            lazyIframes.forEach(iframe => {
+                if (!iframe.src || iframe.src === 'about:blank') {
+                    iframe.src = iframe.dataset.src;
+                    
+                    // Add event listener for error handling
+                    iframe.addEventListener('error', function() {
+                        handleVideoError(this);
+                    });
+                }
+            });
+        }
+
+        // Enhanced tab switching with lazy loading
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add onerror handlers to all iframes
+            document.querySelectorAll('iframe').forEach(iframe => {
+                iframe.addEventListener('error', function() {
+                    handleVideoError(this);
+                });
+            });
+            
+            const difficultyTabs = document.querySelectorAll('.difficulty-tab');
+            difficultyTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-target');
+                    setTimeout(() => {
+                        initVideosInTab(tabId);
+                    }, 100); // Small delay to ensure the tab is visible
+                });
+            });
+            
+            // Initialize videos in the active tabs
+            const activeTabs = document.querySelectorAll('.difficulty-content.active');
+            activeTabs.forEach(tab => {
+                setTimeout(() => {
+                    initVideosInTab(tab.id);
+                }, 300); // Small delay after page load
+            });
+        });
+    </script>
+</body>
+
+</html> 

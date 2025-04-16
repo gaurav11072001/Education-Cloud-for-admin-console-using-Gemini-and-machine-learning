@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ course.title }} Course - EduCloud AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/course.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-graduation-cap"></i>
+            <span>EduCloud AI</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('dashboard') }}" class="nav-link">
+                <i class="fas fa-home"></i> Dashboard
+            </a></li>
+            <li><a href="{{ url_for('resources') }}" class="nav-link">
+                <i class="fas fa-book"></i> Resources
+            </a></li>
+            <li><a href="{{ url_for('community') }}" class="nav-link">
+                <i class="fas fa-users"></i> Community
+            </a></li>
+        </ul>
+        <div class="nav-profile">
+            <span>Welcome, {{ username }}</span>
+            <a href="{{ url_for('logout') }}" class="logout-btn">
+                Logout <i class="fas fa-sign-out-alt"></i>
+            </a>
+        </div>
+    </nav>
+
+    <main class="course-content">
+        <div class="course-header">
+            <a href="{{ url_for('dashboard') }}" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+            <div class="course-title">
+                <i class="{{ course.icon }}"></i>
+                <h1>{{ course.title }}</h1>
+            </div>
+            <p class="course-description">{{ course.description }}</p>
+        </div>
+
+        <div class="course-grid">
+            <div class="course-overview">
+                <h2>Course Overview</h2>
+                <div class="overview-stats">
+                    <div class="stat">
+                        <i class="fas fa-clock"></i>
+                        <span>{{ course.duration }} weeks</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-users"></i>
+                        <span>{{ course.enrolled }}+ enrolled</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-star"></i>
+                        <span>{{ course.rating }} ({{ course.reviews }} reviews)</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-certificate"></i>
+                        <span>Professional Certificate</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-topics">
+                <h2>What You'll Learn</h2>
+                <div class="topics-grid">
+                    {% for topic in course.topics %}
+                    <div class="topic-card">
+                        <i class="fas fa-check-circle"></i>
+                        <span>{{ topic }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="course-resources">
+                <h2>Learning Resources</h2>
+                <div class="resources-grid">
+                    <a href="#" class="resource-card">
+                        <i class="fas fa-video"></i>
+                        <div class="resource-info">
+                            <h3>Video Lectures</h3>
+                            <p>50+ hours of HD content</p>
+                        </div>
+                    </a>
+                    <a href="#" class="resource-card">
+                        <i class="fas fa-laptop-code"></i>
+                        <div class="resource-info">
+                            <h3>Practice Labs</h3>
+                            <p>Interactive coding environment</p>
+                        </div>
+                    </a>
+                    <a href="#" class="resource-card">
+                        <i class="fas fa-book-reader"></i>
+                        <div class="resource-info">
+                            <h3>Study Materials</h3>
+                            <p>Comprehensive guides & examples</p>
+                        </div>
+                    </a>
+                    <a href="#" class="resource-card">
+                        <i class="fas fa-users"></i>
+                        <div class="resource-info">
+                            <h3>Discussion Forums</h3>
+                            <p>Community support & networking</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="preference-form">
+                <h2>Personalize Your Recommendations</h2>
+                <form action="{{ url_for('update_course_preferences') }}" method="post">
+                    <input type="hidden" name="course_type" value="{{ course_type }}">
+                    <input type="hidden" name="subject" value="{{ subject }}">
+                    
+                    <div class="form-group">
+                        <label>Your Experience Level:</label>
+                        <select name="experience" required>
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Areas of Interest:</label>
+                        <div class="interest-options">
+                            <label><input type="checkbox" name="interests" value="web-development"> Web Development</label>
+                            <label><input type="checkbox" name="interests" value="data-science"> Data Science</label>
+                            <label><input type="checkbox" name="interests" value="mobile-development"> Mobile Development</label>
+                            <label><input type="checkbox" name="interests" value="cloud-computing"> Cloud Computing</label>
+                            <label><input type="checkbox" name="interests" value="machine-learning"> Machine Learning</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Learning Goal:</label>
+                        <select name="goal" required>
+                            <option value="career">Career Change</option>
+                            <option value="skills">Skill Enhancement</option>
+                            <option value="hobby">Personal Interest</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Time Commitment:</label>
+                        <select name="time_commitment" required>
+                            <option value="full">Full-time (>20 hrs/week)</option>
+                            <option value="part">Part-time (<20 hrs/week)</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="update-preferences-btn">
+                        <i class="fas fa-sync-alt"></i>
+                        Update Recommendations
+                    </button>
+                </form>
+            </div>
+
+            <div class="related-courses">
+                <h2>Recommended Courses</h2>
+                <p class="recommendation-info">
+                    <i class="fas fa-brain"></i>
+                    Personalized recommendations based on your preferences
+                    <span class="model-badge">ML-powered</span>
+                </p>
+                <div class="related-grid">
+                    {% for related in course.related_courses %}
+                    <a href="{{ related.url }}" target="_blank" rel="noopener noreferrer" class="related-card">
+                        <div class="similarity-badge">{{ "%.1f"|format(related.similarity) }}% match</div>
+                        <i class="{{ related.icon }}"></i>
+                        <div class="related-info">
+                            <h3>{{ related.title }}</h3>
+                            <p>{{ related.short_desc }}</p>
+                            <div class="skill-tags">
+                                {% for skill in related.skills[:3] %}
+                                <span class="skill-tag">{{ skill }}</span>
+                                {% endfor %}
+                            </div>
+                            {% if related.matches %}
+                            <div class="match-tags">
+                                {% for match in related.matches %}
+                                <span class="match-tag">
+                                    <i class="fas fa-check"></i> {{ match }}
+                                </span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="course-stats">
+                            <span class="duration-stat">
+                                <i class="fas fa-clock"></i>
+                                {{ related.duration }} weeks
+                            </span>
+                            <span class="level-stat">
+                                <i class="fas fa-layer-group"></i>
+                                {{ related.level }}
+                            </span>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="course-actions">
+                <a href="{{ course.url }}" target="_blank" rel="noopener noreferrer" class="enroll-btn primary-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Start Learning on {{ course.platform }}
+                </a>
+                <a href="{{ url_for('download_syllabus', course_type=course_type, subject=subject) }}" class="syllabus-btn secondary-btn">
+                    <i class="fas fa-file-alt"></i>
+                    Download Syllabus
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const preferenceForm = document.querySelector('.preference-form form');
+        const relatedGrid = document.querySelector('.related-grid');
+        const updateBtn = document.querySelector('.update-preferences-btn');
+
+        preferenceForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            updateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+            
+            const formData = new FormData(this);
+            
+            fetch('/course_preferences', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                updateRecommendations(data.recommendations);
+                updateBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Update Recommendations';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                updateBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Update Recommendations';
+            });
+        });
+
+        function updateRecommendations(recommendations) {
+            relatedGrid.innerHTML = recommendations.map(course => `
+                <a href="${course.url}" target="_blank" rel="noopener noreferrer" class="related-card">
+                    <div class="similarity-badge">${course.similarity}% match</div>
+                    <i class="${course.icon}"></i>
+                    <div class="related-info">
+                        <h3>${course.title}</h3>
+                        <p>${course.short_desc}</p>
+                        <div class="skill-tags">
+                            ${course.skills.slice(0, 3).map(skill => `
+                                <span class="skill-tag">${skill}</span>
+                            `).join('')}
+                        </div>
+                        ${course.matches ? `
+                            <div class="match-tags">
+                                ${course.matches.map(match => `
+                                    <span class="match-tag">
+                                        <i class="fas fa-check"></i> ${match}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="course-stats">
+                        <span class="duration-stat">
+                            <i class="fas fa-clock"></i>
+                            ${course.duration} weeks
+                        </span>
+                        <span class="level-stat">
+                            <i class="fas fa-layer-group"></i>
+                            ${course.level}
+                        </span>
+                    </div>
+                </a>
+            `).join('');
+        }
+    });
+    </script>
+
+    <style>
+    .primary-btn {
+        background-color: #4A6FFF;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: background-color 0.3s;
+    }
+
+    .primary-btn:hover {
+        background-color: #3557D6;
+    }
+
+    .secondary-btn {
+        background-color: #F5F5F5;
+        color: #333;
+        padding: 12px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: background-color 0.3s;
+    }
+
+    .secondary-btn:hover {
+        background-color: #E5E5E5;
+    }
+
+    .course-actions {
+        display: flex;
+        gap: 16px;
+        margin-top: 24px;
+    }
+    </style>
+</body>
+</html> 

@@ -1,0 +1,168 @@
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    min-height: 100vh;
+    color: white;
+}
+
+/* Navigation Bar Styles */
+.navbar {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 15px 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.navbar a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Home Container Styles */
+.home-container {
+    background-color: #fff; /* White background for content */
+    border-radius: 8px; /* Rounded corners */
+    padding: 40px; /* Ample padding */
+    margin: 20px auto; /* Center container */
+    max-width: 800px; /* Limit maximum width */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.home-container h1 {
+    color: #007bff; /* Primary color for main heading */
+    font-size: 2.5em; /* Larger font size for prominence */
+    margin-bottom: 20px; /* Space below heading */
+}
+
+.home-container h2 {
+    color: #333; /* Dark color for subheadings */
+    font-size: 1.8em; /* Slightly smaller than main heading */
+    margin-top: 30px; /* Space above subheading */
+    margin-bottom: 10px; /* Space below subheading */
+}
+
+.home-container p {
+    color: #555; /* Dark gray for body text */
+    line-height: 1.6; /* Improved line height for readability */
+    margin-bottom: 20px; /* Space below paragraphs */
+}
+
+.home-container a {
+    color: #007bff; /* Primary color for links */
+    text-decoration: underline; /* Underline links for visibility */
+}
+
+.home-container a:hover {
+    text-decoration: none; /* Remove underline on hover */
+}
+
+/* Footer Styles */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.3);
+    margin-top: 50px;
+}
+
+.hero-section {
+    text-align: center;
+    padding: 150px 20px 80px;
+    animation: fadeIn 1s ease-out;
+}
+
+.hero-section h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    animation: slideIn 0.8s ease-out;
+}
+
+.hero-section p {
+    font-size: 1.2em;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+    animation: fadeIn 1s ease-out 0.3s forwards;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    transition: transform 0.3s ease;
+    animation: slideUp 0.5s ease-out;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+}
+
+.feature-card i {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #fdbb2d;
+}
+
+.feature-card h3 {
+    margin: 15px 0;
+    font-size: 1.5em;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(-50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

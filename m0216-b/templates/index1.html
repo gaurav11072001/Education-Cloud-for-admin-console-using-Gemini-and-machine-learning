@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Course Recommendation | EduCloud AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <style>
+        .recommendation-container {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .chat-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            height: calc(100vh - 180px);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .chat-bubble {
+            margin: 12px 0;
+            padding: 15px;
+            border-radius: 15px;
+            max-width: 90%;
+            word-wrap: break-word;
+            animation: fadeIn 0.3s ease-out;
+            position: relative;
+        }
+        
+        .bot-message {
+            background: #4A6FFF;
+            color: white;
+            border-top-left-radius: 5px;
+            margin-right: auto;
+        }
+        
+        .user-response {
+            background: #f0f3ff;
+            color: #333;
+            border-top-right-radius: 5px;
+            margin-left: auto;
+            text-align: right;
+        }
+        
+        .input-group {
+            margin-top: auto;
+        }
+        
+        .user-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e1e1e1;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: white;
+            transition: border-color 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .user-input:focus {
+            border-color: #4A6FFF;
+            outline: none;
+        }
+        
+        select.user-input {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234A6FFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+            padding-right: 2.5em;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        button[type="submit"] {
+            width: 100%;
+            background: #4A6FFF;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        button[type="submit"]:hover {
+            background: #3957D6;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+        }
+        
+        .course-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            max-width: 100%;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .course-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .course-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .course-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 1rem 0;
+            line-height: 1.4;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .course-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .rating {
+            color: #ffc107;
+            font-weight: 600;
+        }
+        
+        .course-review {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .sentiment-tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .sentiment-positive {
+            background: #e3fcef;
+            color: #00875a;
+        }
+        
+        .sentiment-neutral {
+            background: #fff7e6;
+            color: #b95000;
+        }
+        
+        .sentiment-negative {
+            background: #ffe8e8;
+            color: #c92a2a;
+        }
+        
+        .course-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: #FF5757;
+            color: white;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+            font-weight: 500;
+            margin-top: auto;
+            width: 100%;
+            box-sizing: border-box;
+            white-space: nowrap;
+        }
+        
+        .course-link:hover {
+            background: #E04242;
+        }
+        
+        .category-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.3rem 0.7rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-beginner {
+            color: #2ecc71;
+        }
+        
+        .category-intermediate {
+            color: #f39c12;
+        }
+        
+        .category-advanced {
+            color: #e74c3c;
+        }
+        
+        .results-section {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin: 0 0 1.5rem 0;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #666;
+        }
+        
+        .results-info {
+            margin-bottom: 1.5rem;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 992px) {
+            .recommendation-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .chat-container {
+                height: 500px;
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+    <script>
+        // Initialize variables
+        let currentQuestionIndex = 0;
+        let formData = {};
+        let chatContent;
+        let formDataInput;
+        let submitBtn;
+        let allowedHobbies = [];
+
+        // Define questions array with numeric values
+        const questions = [
+            {
+                question: "Hello! Let's find the perfect technical course for you. First, what's your skill level?",
+                type: "select",
+                name: "skill_level",
+                options: [
+                    { value: "1", text: "Beginner" },
+                    { value: "2", text: "Intermediate" },
+                    { value: "3", text: "Advanced" }
+                ]
+            },
+            {
+                question: "How many weeks can you dedicate to this course?",
+                type: "select",
+                name: "duration_weeks",
+                options: [
+                    { value: "1", text: "1 week" },
+                    { value: "2", text: "2 weeks" },
+                    { value: "3", text: "3 weeks" },
+                    { value: "4", text: "4 weeks" },
+                    { value: "5", text: "5 weeks" },
+                    { value: "6", text: "6 weeks" },
+                    { value: "7", text: "7 weeks" }
+                ]
+            },
+            {
+                question: "How many hours per week do you have available?",
+                type: "number",
+                name: "free_time_hours"
+            },
+            {
+                question: "Please specify your highest level of education:",
+                type: "select",
+                name: "education",
+                options: [
+                    { value: "10th", text: "10th" },
+                    { value: "12th", text: "12th" },
+                    { value: "Undergraduate", text: "Undergraduate" },
+                    { value: "Postgraduate", text: "Postgraduate" }
+                ]
+            },
+            {
+                question: "What is your gender?",
+                type: "select",
+                name: "gender",
+                options: [
+                    { value: "Male", text: "Male" },
+                    { value: "Female", text: "Female" }
+                ]
+            },
+            {
+                question: "Which state are you from?",
+                type: "select",
+                name: "state",
+                options: [
+                    { value: "Maharashtra", text: "Maharashtra" },
+                    { value: "Delhi", text: "Delhi" },
+                    { value: "Karnataka", text: "Karnataka" },
+                    { value: "Tamil Nadu", text: "Tamil Nadu" },
+                    { value: "Gujarat", text: "Gujarat" },
+                    { value: "Rajasthan", text: "Rajasthan" },
+                    { value: "Uttar Pradesh", text: "Uttar Pradesh" }
+                ]
+            },
+            {
+                question: "What is your age?",
+                type: "number",
+                name: "age"
+            },
+            {
+                question: "What is your hobby?",
+                type: "select",
+                name: "hobby",
+                options: []
+            }
+        ];
+
+        async function fetchAllowedHobbies() {
+            try {
+                const response = await fetch('/get_allowed_hobbies');
+                const data = await response.json();
+                allowedHobbies = data.hobbies;
+            } catch (error) {
+                console.error('Error fetching hobbies:', error);
+                // Fallback to default hobbies if fetch fails
+                allowedHobbies = ['Reading', 'Gaming', 'Sports', 'Music', 'Dancing',
+                    'Painting', 'Writing', 'Photography', 'Cooking', 'Traveling'];
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            // Fetch allowed hobbies before starting chat
+            await fetchAllowedHobbies();
+
+            // Update hobby options
+            const hobbyQuestion = questions.find(q => q.name === 'hobby');
+            hobbyQuestion.options = allowedHobbies.map(hobby => ({
+                value: hobby,
+                text: hobby
+            }));
+
+            chatContent = document.getElementById('chat-content');
+            formDataInput = document.getElementById('formData');
+            submitBtn = document.getElementById('submitBtn');
+
+            // Add form submit handler with logging
+            document.getElementById('recommendationForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                formDataInput.value = JSON.stringify(formData);
+                
+                // Show loading state
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                submitBtn.disabled = true;
+                
+                fetch("{{ url_for('recommend_technical') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        formData: document.getElementById('formData').value
+                    })
+                })
+                .then(response => response.text())
+                .then(html => {
+                    document.documentElement.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('There was an error submitting the form. Please try again.');
+                    submitBtn.innerHTML = 'Get Recommendations';
+                    submitBtn.disabled = false;
+                });
+            });
+
+            startChat();
+        });
+
+        function startChat() {
+            const greeting = document.createElement('div');
+            greeting.className = 'chat-bubble bot-message';
+            greeting.textContent = "Hi! I'm here to help you find the perfect technical course. Let's get started!";
+            chatContent.appendChild(greeting);
+
+            setTimeout(askNextQuestion, 1000);
+        }
+
+        function addUserResponse(response, questionName) {
+            const userBubble = document.createElement('div');
+            userBubble.className = 'chat-bubble user-response';
+            userBubble.textContent = response;
+            chatContent.appendChild(userBubble);
+
+            // Get current question
+            const currentQuestion = questions[currentQuestionIndex];
+
+            // Store the value, not the text for select inputs
+            if (currentQuestion.type === 'select') {
+                const selectedOption = currentQuestion.options.find(opt => opt.text === response);
+                if (selectedOption) {
+                    formData[questionName] = selectedOption.value;
+                }
+            } else if (currentQuestion.type === 'number') {
+                // Ensure number inputs are stored as numbers
+                formData[questionName] = parseInt(response, 10);
+            } else {
+                formData[questionName] = response;
+            }
+
+            // Log the updated form data
+            console.log('Updated form data:', formData);
+
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                setTimeout(askNextQuestion, 500);
+            } else {
+                submitBtn.style.display = 'block';
+                
+                // Add bot completion message
+                setTimeout(() => {
+                    const completionBubble = document.createElement('div');
+                    completionBubble.className = 'chat-bubble bot-message';
+                    completionBubble.textContent = "Great! I have all the information I need. Click the button below to get your personalized course recommendations.";
+                    chatContent.appendChild(completionBubble);
+                    chatContent.scrollTop = chatContent.scrollHeight;
+                }, 500);
+            }
+
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+
+        function askNextQuestion() {
+            const question = questions[currentQuestionIndex];
+
+            // Create bot question bubble
+            const botBubble = document.createElement('div');
+            botBubble.className = 'chat-bubble bot-message';
+            botBubble.textContent = question.question;
+            chatContent.appendChild(botBubble);
+
+            // Create input group
+            const inputGroup = document.createElement('div');
+            inputGroup.className = 'input-group';
+
+            let input;
+            if (question.type === 'select') {
+                // Create select input
+                input = document.createElement('select');
+                input.className = 'user-input';
+
+                // Add placeholder option
+                const placeholder = document.createElement('option');
+                placeholder.value = "";
+                placeholder.textContent = "Select an option";
+                placeholder.disabled = true;
+                placeholder.selected = true;
+                input.appendChild(placeholder);
+
+                // Add options
+                question.options.forEach(opt => {
+                    const option = document.createElement('option');
+                    option.value = opt.value;
+                    option.textContent = opt.text;
+                    input.appendChild(option);
+                });
+
+                // Handle select change
+                input.addEventListener('change', function () {
+                    if (this.value) {
+                        const selectedText = this.options[this.selectedIndex].text;
+                        addUserResponse(selectedText, question.name);
+                        inputGroup.remove();
+                    }
+                });
+            } else {
+                // Create number input
+                input = document.createElement('input');
+                input.type = question.type;
+                input.className = 'user-input';
+                input.placeholder = "Type your answer...";
+                if (question.type === 'number') {
+                    input.min = "1";
+                }
+
+                // Handle enter key
+                input.addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter' && this.value) {
+                        e.preventDefault();
+                        addUserResponse(this.value, question.name);
+                        inputGroup.remove();
+                    }
+                });
+            }
+
+            // Add input to page
+            inputGroup.appendChild(input);
+            chatContent.appendChild(inputGroup);
+            input.focus();
+
+            // Scroll to bottom
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="floating-elements">
+        <i class="fas fa-graduation-cap floating"></i>
+        <i class="fas fa-book floating"></i>
+        <i class="fas fa-pencil-alt floating"></i>
+        <i class="fas fa-laptop-code floating"></i>
+        <i class="fas fa-calculator floating"></i>
+        <i class="fas fa-atom floating"></i>
+        <i class="fas fa-globe floating"></i>
+        <i class="fas fa-chart-line floating"></i>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-graduation-cap"></i>
+            <span>EduCloud AI</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('dashboard') }}" class="nav-link">
+                <i class="fas fa-home"></i> Dashboard
+            </a></li>
+            <li><a href="{{ url_for('resources') }}" class="nav-link">
+                <i class="fas fa-book"></i> Resources
+            </a></li>
+            <li><a href="{{ url_for('community') }}" class="nav-link">
+                <i class="fas fa-users"></i> Community
+            </a></li>
+        </ul>
+        <div class="nav-profile">
+            <span>Welcome, {{ username }}</span>
+            <a href="{{ url_for('logout') }}" class="logout-btn">
+                Logout <i class="fas fa-sign-out-alt"></i>
+            </a>
+        </div>
+    </nav>
+
+    <main class="dashboard-content">
+        <div class="container">
+            <div class="header">
+                <h1>Technical Course Recommendations</h1>
+                <p>Find the perfect technical course tailored to your needs and preferences</p>
+            </div>
+
+            <div class="recommendation-container">
+                <div class="chat-container">
+                    <div id="chat-content" class="chat-content">
+                        <!-- Chat content will be added here by JavaScript -->
+                    </div>
+                    <form method="POST" id="recommendationForm" action="{{ url_for('recommend_technical') }}">
+                        <input type="hidden" id="formData" name="formData">
+                        <button type="submit" id="submitBtn" style="display: none;">Get Recommendations</button>
+                    </form>
+                </div>
+
+                <div class="results-section">
+                    <h2 class="section-title">Course Recommendations</h2>
+                    
+                    {% if courses %}
+                        <p class="results-info">Based on your preferences, we've found the following courses that match your criteria. These recommendations are tailored to your skill level, available time, and interests.</p>
+                        
+                        <div class="courses-grid">
+                            {% for course in courses %}
+                            <div class="course-card">
+                                <img src="{{ url_for('static', filename=course.get('Image', 'images/default.jpg')) }}"
+                                     alt="{{ course['Course Title'] }}" 
+                                     class="course-image">
+                                <div class="category-badge category-{{ course['Category'].lower() }}">
+                                    {{ course['Category'] }}
+                                </div>
+                                <div class="course-content">
+                                    <h3 class="course-title">{{ course['Course Title'] }}</h3>
+                                    <div class="course-info">
+                                        <div class="info-item">
+                                            <i class="fas fa-star"></i>
+                                            <span class="rating">{{ course['Rating'] }}</span>
+                                        </div>
+                                        {% if course['Remaining Title'] %}
+                                        <div class="info-item">
+                                            <i class="fas fa-info-circle"></i>
+                                            <span>{{ course['Remaining Title'] }}</span>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="course-review">{{ course['Review'] }}</div>
+                                    <div class="sentiment-tag sentiment-{{ course['Sentiment'].lower() }}">
+                                        {{ course['Sentiment'] }}
+                                    </div>
+                                    <a href="{{ course['Course Link'] }}" class="course-link" target="_blank">
+                                        <i class="fas fa-external-link-alt"></i> View Course
+                                    </a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="no-results">
+                            <i class="fas fa-search" style="font-size: 3rem; color: #ddd; margin-bottom: 1rem;"></i>
+                            <h3>No courses found matching your criteria</h3>
+                            <p>Please try different preferences or complete the questionnaire on the left to get personalized recommendations.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

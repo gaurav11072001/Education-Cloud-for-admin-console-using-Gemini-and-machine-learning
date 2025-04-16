@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational AI Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
+</head>
+
+<body>
+    <div class="floating-elements">
+        <i class="fas fa-graduation-cap"></i>
+        <i class="fas fa-book"></i>
+        <i class="fas fa-pencil-alt"></i>
+        <i class="fas fa-atom"></i>
+        <i class="fas fa-brain"></i>
+    </div>
+
+    <nav class="navbar glass">
+        <ul>
+            <li><a href="{{ url_for('dashboard') }}" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="{{ url_for('chat') }}" class="nav-link active"><i class="fas fa-robot"></i> AI Assistant</a>
+            </li>
+            <li><a href="{{ url_for('logout') }}" class="nav-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="header-content">
+                <div class="robot-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="header-text">
+                    <h2>Educational AI Assistant</h2>
+                    <div class="status">
+                        <span class="status-dot"></span>
+                        <span>Online</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+            {% if not chat_history %}
+            <div class="welcome-message scale-in">
+                <div class="welcome-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3>Welcome, {{ username }}! 👋</h3>
+                <p>I'm your Educational AI Assistant. How can I help you learn today?</p>
+                <div class="suggestion-chips">
+                    <button class="chip" onclick="sendSuggestion('Tell me about quantum physics')">
+                        <i class="fas fa-atom"></i> Quantum Physics
+                    </button>
+                    <button class="chip" onclick="sendSuggestion('Explain machine learning')">
+                        <i class="fas fa-brain"></i> Machine Learning
+                    </button>
+                    <button class="chip" onclick="sendSuggestion('Help with mathematics')">
+                        <i class="fas fa-square-root-alt"></i> Mathematics
+                    </button>
+                </div>
+            </div>
+            {% endif %}
+
+            {% for message in chat_history %}
+            <div class="message {{ 'user-message' if message.role == 'user' else 'assistant-message' }}">
+                {% if message.role == 'assistant' %}
+                <div class="message-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                {% endif %}
+                <div class="message-content">
+                    <div class="message-bubble">
+                        {{ message.content | safe }}
+                    </div>
+                    <div class="message-info">
+                        <span class="message-time">{{ message.timestamp if message.timestamp else 'Just now' }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="chat-input">
+            <form id="chat-form">
+                <div class="input-wrapper">
+                    <div class="input-controls">
+                        <label for="image-upload" class="upload-btn">
+                            <i class="fas fa-image"></i>
+                            <input type="file" id="image-upload" accept="image/*" style="display: none;">
+                        </label>
+                        <input type="text" id="user-input" placeholder="Type your message..." required>
+                        <button type="submit" class="send-button">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const chatForm = document.getElementById('chat-form');
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+
+        function scrollToBottom() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showLoading() {
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'message assistant-message loading';
+            loadingDiv.innerHTML = `
+                <div class="message-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="message-content">
+                    <div class="message-bubble">
+                        <div class="typing-indicator">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(loadingDiv);
+            scrollToBottom();
+            return loadingDiv;
+        }
+
+        function addMessage(content, isUser = false) {
+            const messagesContainer = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'assistant-message'} fade-in`;
+            
+            // Add robot icon for assistant messages
+            if (!isUser) {
+                const iconDiv = document.createElement('div');
+                iconDiv.className = 'message-icon';
+                iconDiv.innerHTML = '<i class="fas fa-robot"></i>';
+                messageDiv.appendChild(iconDiv);
+            }
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            
+            const messageBubble = document.createElement('div');
+            messageBubble.className = 'message-bubble';
+            messageBubble.innerHTML = content; // Use innerHTML to render markdown
+            
+            const messageInfo = document.createElement('div');
+            messageInfo.className = 'message-info';
+            messageInfo.innerHTML = `<span class="message-time">Just now</span>`;
+            
+            messageContent.appendChild(messageBubble);
+            messageContent.appendChild(messageInfo);
+            messageDiv.appendChild(messageContent);
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        let currentImageFile = null;
+
+        document.getElementById('image-upload').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                alert('Please upload an image file');
+                return;
+            }
+
+            // Store the file for later upload
+            currentImageFile = file;
+
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('preview-image').src = e.target.result;
+                document.getElementById('image-preview').style.display = 'flex';
+            };
+            reader.readAsDataURL(file);
+        });
+
+        function removeImagePreview() {
+            document.getElementById('image-preview').style.display = 'none';
+            document.getElementById('preview-image').src = '';
+            document.getElementById('image-upload').value = '';
+            currentImageFile = null;
+        }
+
+        document.getElementById('chat-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const input = document.getElementById('user-input');
+            const message = input.value.trim();
+            
+            if (message) {
+                // Add user message to UI immediately
+                addMessage(message, true);
+                
+                // Clear input
+                input.value = '';
+                
+                // Show loading indicator
+                const loadingDiv = document.createElement('div');
+                loadingDiv.className = 'message assistant-message fade-in';
+                loadingDiv.innerHTML = `
+                    <div class="message-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            <div class="typing-indicator">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('chat-messages').appendChild(loadingDiv);
+                
+                // Send message to server
+                fetch('/send_message', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `user_input=${encodeURIComponent(message)}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Remove loading indicator
+                    loadingDiv.remove();
+                    
+                    if (data.status === 'success') {
+                        // Add AI response to UI
+                        addMessage(data.response, false);
+                    } else {
+                        throw new Error(data.message || 'Failed to get response');
+                    }
+                })
+                .catch(error => {
+                    // Remove loading indicator
+                    loadingDiv.remove();
+                    // Show error message
+                    addMessage(`Error: ${error.message}`, false);
+                    console.error('Error:', error);
+                });
+            }
+        });
+
+        // Initial scroll to bottom
+        scrollToBottom();
+
+        // Observe chat messages for changes
+        const observer = new MutationObserver(scrollToBottom);
+        observer.observe(chatMessages, {
+            childList: true,
+            subtree: true
+        });
+
+        // Add suggestion chip functionality
+        function sendSuggestion(text) {
+            document.getElementById('user-input').value = text;
+            document.getElementById('chat-form').dispatchEvent(new Event('submit'));
+        }
+
+        function handleImageUpload(file) {
+            const formData = new FormData();
+            formData.append('image', file);
+
+            // Show loading state
+            addMessage('Processing medical document...', false);
+
+            fetch('/upload_chat_image', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        // Remove the loading message
+                        const messages = document.querySelector('.chat-messages');
+                        messages.removeChild(messages.lastChild);
+
+                        // Display the document and extracted text
+                        if (data.extracted_text) {
+                            addMessage(`
+                            <div class="medical-document">
+                                <div class="document-container">
+                                    <img src="${data.file_url}" alt="Medical document" class="medical-image">
+                                </div>
+                                <div class="extracted-text">
+                                    <h4>Extracted Text:</h4>
+                                    <pre>${data.extracted_text}</pre>
+                                </div>
+                            </div>
+                        `, true);
+
+                            // Display the analysis if available
+                            if (data.analysis) {
+                                addMessage(`
+                                <div class="analysis-response">
+                                    ${data.analysis}
+                                </div>
+                            `, false);
+                            }
+                        }
+
+                        // Clear the file input
+                        document.getElementById('image-upload').value = '';
+                    } else {
+                        throw new Error(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    addMessage(`Error: ${error.message}`, false, true);
+                });
+        }
+    </script>
+</body>
+
+</html>

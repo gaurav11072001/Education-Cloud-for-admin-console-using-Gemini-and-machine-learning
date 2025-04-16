@@ -1,0 +1,41 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/recommendations.css') }}">
+
+<div class="container">
+    <h1>Recommended Courses</h1>
+    {% if courses %}
+    <div class="courses-grid">
+        {% for course in courses %}
+        <div class="course-card">
+            <img class="course-image" src="{{ url_for('static', filename=course.get('Image', 'images/default.jpg')) }}" 
+                 alt="{{ course['Course Title'] }}">
+            <div class="course-content">
+                <h3 class="course-title">{{ course['Course Title'] }}</h3>
+                <div class="course-info">
+                    <div class="info-item">
+                        <i class="fas fa-star"></i>
+                        <span class="rating">{{ course['Rating'] }}</span>
+                    </div>
+                    {% if course['Remaining Title'] %}
+                    <div class="info-item">
+                        <i class="fas fa-info-circle"></i>
+                        <span>{{ course['Remaining Title'] }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="review-section">
+                    <p class="review-text">{{ course['Review'] }}</p>
+                    <span class="sentiment {{ course['Sentiment'].lower() }}">
+                        {{ course['Sentiment'] }}
+                    </span>
+                </div>
+                <a href="{{ course['Course Link'] }}" class="course-link" target="_blank">
+                    View Course
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="no-courses">No courses to display.</p>
+    {% endif %}
+</div> 

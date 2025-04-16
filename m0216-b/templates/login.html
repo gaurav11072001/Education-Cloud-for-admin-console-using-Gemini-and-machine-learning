@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduCloud AI - Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+  <style>
+    /* Enhanced login styles */
+    :root {
+      --primary: #476fff;
+      --primary-dark: #3557D6;
+      --accent: #FF5757;
+      --text-dark: #bebecd;
+      --text-light: #8990a5;
+      --text-subtitle: #6e7b97;
+      --background: #f5f7ff;
+      --card-bg: rgba(55, 47, 54, 0.634);
+      --input-bg: #f8f9fc;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    html, body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      height: 100%;
+      width: 100%;
+      overflow-x: hidden;
+    }
+    
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url("{{ url_for('static', filename='images/learning.jpg') }}") no-repeat center center;
+      background-size: cover;
+      background-attachment: fixed;
+      position: relative;
+      overflow-y: auto;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 0;
+    }
+    
+    .page-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100%;
+      width: 100%;
+      padding: 60px 0;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+      position: relative;
+      z-index: 2;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .login-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(5px);
+      border-radius: 25px;
+      padding: 40px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+    
+    .login-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    }
+    
+    /* Logo styling - positioned outside the card */
+    .logo-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-bottom: -35px;
+      position: relative;
+      z-index: 3;
+    }
+    
+    .logo-wrapper {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, #4A6FFF, #45E3FF);
+      color: white;
+      font-size: 2rem;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .brand {
+      text-align: center;
+      margin-bottom: 25px;
+      padding-top: 20px;
+    }
+    
+    .brand h1 {
+      margin: 0;
+      color: var(--text-dark);
+      font-size: 1.8rem;
+      font-weight: 600;
+      text-transform: lowercase;
+    }
+    
+    .brand p {
+      margin: 8px 0 0;
+      color: var(--text-dark);
+      font-size: 0.95rem;
+      font-weight: 400;
+      max-width: 280px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .login-form {
+      margin-top: 30px;
+    }
+    
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+      background: var(--input-bg);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    
+    .input-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+    }
+    
+    .input-group input {
+      width: 100%;
+      padding: 16px 15px 16px 45px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: transparent;
+      color: #333;
+    }
+    
+    .input-group input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(74, 111, 255, 0.2);
+    }
+    
+    .input-group input::placeholder {
+      color: var(--text-light);
+    }
+    
+    .password-toggle {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-light);
+      cursor: pointer;
+      padding: 0;
+    }
+    
+    .sign-in-btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      background: var(--primary);
+      color: white;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+      box-shadow: 0 5px 15px rgba(74, 111, 255, 0.3);
+    }
+    
+    .sign-in-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 7px 20px rgba(74, 111, 255, 0.4);
+    }
+    
+    .sign-in-btn i {
+      font-size: 0.9rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .sign-in-btn:hover i {
+      transform: translateX(5px);
+    }
+    
+    .create-account {
+      text-align: center;
+      margin-top: 25px;
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+    
+    .create-account a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      margin-left: 5px;
+      transition: color 0.3s ease;
+    }
+    
+    .create-account a:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+    
+    .dashboard-info {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 25px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .dashboard-info p {
+      color: var(--text-dark);
+      font-size: 0.9rem;
+      margin: 0;
+    }
+    
+    .dashboard-features {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+    
+    .feature-tag {
+      background: rgba(74, 111, 255, 0.2);
+      color: var(--text-dark);
+      padding: 6px 15px;
+      border-radius: 25px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    /* Remove floating background elements */
+    .background-elements {
+      display: none;
+    }
+    
+    /* Media queries for responsive design */
+    @media screen and (max-height: 700px) {
+      .page-wrapper {
+        padding: 40px 0;
+        justify-content: flex-start;
+      }
+      
+      .login-card {
+        padding: 30px;
+      }
+      
+      .logo-wrapper {
+        width: 60px;
+        height: 60px;
+        font-size: 1.8rem;
+      }
+      
+      .brand h1 {
+        font-size: 1.6rem;
+      }
+      
+      .brand p {
+        font-size: 0.9rem;
+      }
+    }
+    
+    @media screen and (max-width: 480px) {
+      .container {
+        padding: 15px;
+      }
+      
+      .login-card {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-wrapper">
+    <div class="logo-container">
+      <div class="logo-wrapper">
+        <i class="fas fa-graduation-cap"></i>
+      </div>
+  </div>
+
+  <div class="container">
+    <div class="login-card">
+      <div class="brand">
+          <h1>Edu Cloud</h1>
+        <p>for admin console using GEN AI</p>
+      </div>
+
+      <form method="POST" action="/login" class="login-form">
+        <div class="input-group">
+          <div class="input-icon">
+            <i class="fas fa-user"></i>
+          </div>
+            <input type="text" id="username" name="username" placeholder="Username" required>
+        </div>
+
+        <div class="input-group">
+          <div class="input-icon">
+            <i class="fas fa-lock"></i>
+          </div>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+          <button type="button" class="password-toggle">
+            <i class="fas fa-eye-slash"></i>
+          </button>
+        </div>
+
+        <button type="submit" class="sign-in-btn">
+            Access Dashboard
+          <i class="fas fa-arrow-right"></i>
+        </button>
+
+        <div class="create-account">
+          <span>Don't have an account?</span>
+          <a href="{{ url_for('register') }}">Create Account</a>
+        </div>
+          
+          <div class="dashboard-info">
+            <p>Personalized learning platform with AI-powered recommendations</p>
+            <div class="dashboard-features">
+              <span class="feature-tag">Courses</span>
+              <span class="feature-tag">Resources</span>
+              <span class="feature-tag">Community</span>
+            </div>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Password visibility toggle
+    document.querySelector('.password-toggle').addEventListener('click', function() {
+      const passwordInput = document.querySelector('#password');
+      const icon = this.querySelector('i');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+      } else {
+        passwordInput.type = 'password';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational AI Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+
+<body>
+    <div class="floating-elements">
+        <i class="fas fa-graduation-cap floating"></i>
+        <i class="fas fa-book floating"></i>
+        <i class="fas fa-pencil-alt floating"></i>
+        <i class="fas fa-laptop-code floating"></i>
+        <i class="fas fa-calculator floating"></i>
+        <i class="fas fa-atom floating"></i>
+        <i class="fas fa-globe floating"></i>
+        <i class="fas fa-chart-line floating"></i>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Edu Cloud</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('dashboard') }}" class="nav-link active">
+                <i class="fas fa-home"></i> Dashboard
+            </a></li>
+            <li><a href="{{ url_for('resources') }}" class="nav-link">
+                <i class="fas fa-book"></i> Resources
+            </a></li>
+            <li><a href="{{ url_for('community') }}" class="nav-link">
+                <i class="fas fa-users"></i> Community
+            </a></li>
+        </ul>
+        <div class="nav-profile">
+            <span>Welcome, {{ username }}</span>
+            <a href="{{ url_for('logout') }}" class="logout-btn">
+                Logout <i class="fas fa-sign-out-alt"></i>
+            </a>
+        </div>
+    </nav>
+
+    <main class="dashboard-content">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1>Welcome to Edu Cloud </h1>
+                <p>for admin console using GEN AI</p>
+                <div class="search-bar">
+                    <form action="{{ url_for('search_courses') }}" method="post">
+                        <input type="text" name="search_query" placeholder="Search for courses...">
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <i class="fas fa-clock"></i>
+                    <div class="stat-info">
+                        <h4>Learning Hours</h4>
+                        <p>12.5 hrs</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-tasks"></i>
+                    <div class="stat-info">
+                        <h4>Completed</h4>
+                        <p>24 Tasks</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-star"></i>
+                    <div class="stat-info">
+                        <h4>Points</h4>
+                        <p>850</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course Sections -->
+        <div class="courses-section">
+            <div class="section-header">
+                <h2>Technical Courses</h2>
+                <div class="section-controls">
+                    <button class="filter-btn active">All</button>
+                    <button class="filter-btn">Popular</button>
+                    <button class="filter-btn">New</button>
+                </div>
+            </div>
+            <div class="course-grid">
+                {% for course_type, course in courses.items() %}
+                    {% if course.type == 'technical' %}
+                    <div class="course-card">
+                        <div class="course-level">{{ course.level }}</div>
+                        <div class="course-icon">
+                            <i class="{{ course.icon }}"></i>
+                        </div>
+                        <h3 class="course-title">{{ course.title }}</h3>
+                        <p class="course-description">{{ course.description }}</p>
+                        <div class="course-meta">
+                            <span><i class="far fa-clock"></i> {{ course.duration }} weeks</span>
+                            <span><i class="fas fa-users"></i> {{ course.students }} students</span>
+                        </div>
+                        
+                        <!-- Extract video ID from YouTube URL -->
+                        {% if 'youtube.com/watch?v=' in course.url %}
+                            {% set video_id = course.url.split('v=')[1].split('&')[0] if '&' in course.url.split('v=')[1] else course.url.split('v=')[1] %}
+                        {% elif 'youtu.be/' in course.url %}
+                            {% set video_id = course.url.split('youtu.be/')[1].split('?')[0] if '?' in course.url.split('youtu.be/')[1] else course.url.split('youtu.be/')[1] %}
+                        {% else %}
+                            {% set video_id = '' %}
+                        {% endif %}
+
+                        {% if video_id %}
+                            <!-- Video thumbnail with play button -->
+                            <div class="video-container" data-video-id="{{ video_id }}">
+                                <div class="thumbnail-container" onclick="loadVideo('{{ video_id }}', this)">
+                                    <img src="https://img.youtube.com/vi/{{ video_id }}/mqdefault.jpg" alt="{{ course.title }}">
+                                    <div class="play-overlay">
+                                        <i class="fab fa-youtube"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <a href="{{ course.url }}" class="course-button" target="_blank">
+                                <i class="fab fa-youtube"></i> Watch on YouTube
+                            </a>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="section-header">
+                <h2>Non-Technical Courses</h2>
+                <div class="section-controls">
+                    <button class="filter-btn active">All</button>
+                    <button class="filter-btn">Popular</button>
+                    <button class="filter-btn">New</button>
+                </div>
+            </div>
+            <div class="course-grid">
+                {% for course_type, course in courses.items() %}
+                    {% if course.type == 'non-technical' %}
+                    <div class="course-card">
+                        <div class="course-level">{{ course.level }}</div>
+                        <div class="course-icon">
+                            <i class="{{ course.icon }}"></i>
+                        </div>
+                        <h3 class="course-title">{{ course.title }}</h3>
+                        <p class="course-description">{{ course.description }}</p>
+                        <div class="course-meta">
+                            <span><i class="far fa-clock"></i> {{ course.duration }} weeks</span>
+                            <span><i class="fas fa-users"></i> {{ course.students }} students</span>
+                        </div>
+                        
+                        <!-- Extract video ID from YouTube URL -->
+                        {% if 'youtube.com/watch?v=' in course.url %}
+                            {% set video_id = course.url.split('v=')[1].split('&')[0] if '&' in course.url.split('v=')[1] else course.url.split('v=')[1] %}
+                        {% elif 'youtu.be/' in course.url %}
+                            {% set video_id = course.url.split('youtu.be/')[1].split('?')[0] if '?' in course.url.split('youtu.be/')[1] else course.url.split('youtu.be/')[1] %}
+                        {% else %}
+                            {% set video_id = '' %}
+                        {% endif %}
+
+                        {% if video_id %}
+                            <!-- Video thumbnail with play button -->
+                            <div class="video-container" data-video-id="{{ video_id }}">
+                                <div class="thumbnail-container" onclick="loadVideo('{{ video_id }}', this)">
+                                    <img src="https://img.youtube.com/vi/{{ video_id }}/mqdefault.jpg" alt="{{ course.title }}">
+                                    <div class="play-overlay">
+                                        <i class="fab fa-youtube"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <a href="{{ course.url }}" class="course-button" target="_blank">
+                                <i class="fab fa-youtube"></i> Watch on YouTube
+                            </a>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="header">
+                <h1>Course Recommendations</h1>
+                <p>Choose your learning path</p>
+            </div>
+
+            <div class="recommendation-buttons">
+                <a href="{{ url_for('recommend_non_technical') }}" class="recommendation-btn non-technical">
+                    <div class="btn-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="btn-content">
+                        <h3>Non-Technical Courses</h3>
+                        <p>Soft skills, management, and personal development</p>
+                    </div>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </a>
+
+                <a href="{{ url_for('recommend_technical') }}" class="recommendation-btn technical">
+                    <div class="btn-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="btn-content">
+                        <h3>Technical Courses</h3>
+                        <p>Programming, data science, and technology</p>
+                    </div>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card resources">
+                <div class="card-icon"><i class="fas fa-book-open"></i></div>
+                <div class="card-content">
+                    <h3>Learning Resources</h3>
+                    <p>Access study materials and guides</p>
+                    <a href="{{ url_for('resources') }}" class="card-btn">Browse Library</a>
+                </div>
+            </div>
+
+            <div class="feature-card community">
+                <div class="card-icon"><i class="fas fa-users"></i></div>
+                <div class="card-content">
+                    <h3>Learning Community</h3>
+                    <p>Connect with peers and share knowledge</p>
+                    <a href="{{ url_for('community') }}" class="card-btn">Join Discussion</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Chatbot Toggle and Interface -->
+    <div class="chatbot-toggle">
+        <i class="fas fa-comments"></i>
+    </div>
+    
+    <div class="chat-overlay"></div>
+    
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <h3>AI Learning Assistant</h3>
+            <button class="close-chat" onclick="toggleChat()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot">
+                Hello! I'm your AI learning assistant. How can I help you today?
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+            <button class="voice-btn" onclick="toggleVoiceInput()" title="Voice Input">
+                <i class="fas fa-microphone"></i>
+            </button>
+            <button onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate stats cards
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('animate-in');
+                }, 200 * index);
+            });
+
+            // Animate feature cards
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('animate-in');
+                }, 300 * index);
+            });
+
+            const chatbotToggle = document.querySelector('.chatbot-toggle');
+            const chatbotContainer = document.querySelector('.chatbot-container');
+            const chatOverlay = document.querySelector('.chat-overlay');
+            
+            function toggleChat() {
+                chatbotContainer.classList.toggle('active');
+                chatOverlay.classList.toggle('active');
+                document.body.classList.toggle('chat-open');
+            }
+
+            chatbotToggle.addEventListener('click', toggleChat);
+            
+            // Close chat when clicking overlay
+            chatOverlay.addEventListener('click', toggleChat);
+            
+            // Prevent chat from closing when clicking inside
+            chatbotContainer.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+
+        function loadVideo(videoId, element) {
+            const container = element.closest('.video-container');
+            
+            // Create iframe for YouTube video
+            const iframe = document.createElement('iframe');
+            iframe.width = '100%';
+            iframe.height = '100%';
+            iframe.src = 'https://www.youtube.com/embed/' + videoId;
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('allowfullscreen', 'true');
+            iframe.style.position = 'absolute';
+            iframe.style.top = '0';
+            iframe.style.left = '0';
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.borderRadius = '8px';
+            
+            // Create wrapper for the iframe (to maintain 16:9 aspect ratio)
+            const wrapper = document.createElement('div');
+            wrapper.style.position = 'relative';
+            wrapper.style.paddingTop = '56.25%'; // 16:9 aspect ratio
+            wrapper.style.width = '100%';
+            wrapper.style.borderRadius = '8px';
+            wrapper.style.overflow = 'hidden';
+            wrapper.appendChild(iframe);
+            
+            // Replace the thumbnail with the iframe
+            container.innerHTML = '';
+            container.appendChild(wrapper);
+        }
+
+        async function addComment(courseId) {
+            const input = document.getElementById(`comment-input-${courseId}`);
+            const content = input.value.trim();
+            
+            if (!content) {
+                alert('Please enter a comment');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/add_comment', {
+                    method: 'POST',
+                    headers: new Headers({
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }),
+                    body: JSON.stringify({
+                        content: content,
+                        course_id: courseId
+                    })
+                });
+
+                if (response.status === 415) {
+                    throw new Error('Content type error. Please try again.');
+                }
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to add comment');
+                }
+
+                const data = await response.json();
+                
+                // Create comment element
+                const commentList = document.getElementById(`comments-${courseId}`);
+                const commentElement = document.createElement('div');
+                commentElement.className = 'comment';
+                commentElement.innerHTML = `
+                    <div class="comment-header">
+                        <span class="comment-author">${data.username}</span>
+                        <span class="comment-date">${data.created_at}</span>
+                    </div>
+                    <div class="comment-content">${data.content}</div>
+                `;
+                
+                // Add to the beginning of the list
+                commentList.insertBefore(commentElement, commentList.firstChild);
+                
+                // Clear input
+                input.value = '';
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert(error.message);
+            }
+        }
+
+        // Voice Recognition Setup
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.lang = 'en-US';
+
+        let isListening = false;
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            document.getElementById('user-input').value = transcript;
+            toggleVoiceInput(); // Stop recording
+        };
+
+        recognition.onerror = (event) => {
+            console.error('Speech recognition error:', event.error);
+            toggleVoiceInput(); // Stop recording
+        };
+
+        function toggleVoiceInput() {
+            const voiceBtn = document.querySelector('.voice-btn');
+            
+            if (!isListening) {
+                // Start listening
+                recognition.start();
+                isListening = true;
+                voiceBtn.classList.add('listening');
+                voiceBtn.querySelector('i').className = 'fas fa-stop';
+            } else {
+                // Stop listening
+                recognition.stop();
+                isListening = false;
+                voiceBtn.classList.remove('listening');
+                voiceBtn.querySelector('i').className = 'fas fa-microphone';
+            }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('user-input');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message to chat
+            addMessage(message, 'user');
+            input.value = '';
+            
+            // Add typing indicator
+            const typingIndicator = addTypingIndicator();
+            
+            try {
+                const response = await fetch('/chatbot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+                
+                const data = await response.json();
+                
+                // Remove typing indicator
+                typingIndicator.remove();
+                
+                if (data.success) {
+                    // Format and add the bot's response
+                    addFormattedMessage(data.response, 'bot');
+                } else {
+                    addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                // Remove typing indicator
+                typingIndicator.remove();
+                addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+            }
+        }
+
+        function addTypingIndicator() {
+            const messagesDiv = document.getElementById('chat-messages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message bot typing';
+            typingDiv.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+            messagesDiv.appendChild(typingDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            return typingDiv;
+        }
+
+        function addFormattedMessage(message, type) {
+            const messagesDiv = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            // Format the message content with markdown-like processing
+            const formattedContent = formatMessageContent(message);
+            messageDiv.innerHTML = formattedContent;
+            
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function formatMessageContent(content) {
+            // Basic markdown-like formatting
+            return content
+                // Code blocks
+                .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>')
+                // Inline code
+                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                // Headers
+                .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+                .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+                .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+                // Lists
+                .replace(/^\s*[-*+] (.*)$/gm, '<li>$1</li>')
+                .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
+                // Numbered lists
+                .replace(/^\d+\. (.*)$/gm, '<li>$1</li>')
+                .replace(/(<li>.*<\/li>)/gs, '<ol>$1</ol>')
+                // Bold
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                // Italic
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                // Links
+                .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+                // Paragraphs
+                .replace(/\n\n/g, '</p><p>')
+                // Line breaks
+                .replace(/\n/g, '<br>');
+        }
+
+        function addMessage(message, type) {
+            if (type === 'bot') {
+                addFormattedMessage(message, type);
+            } else {
+                const messagesDiv = document.getElementById('chat-messages');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${type}`;
+                messageDiv.textContent = message;
+                messagesDiv.appendChild(messageDiv);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+    </script>
+
+    <style>
+    .course-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 24px;
+        padding: 24px;
+    }
+
+    .course-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease;
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .course-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .course-icon {
+        font-size: 2em;
+        color: #4A6FFF;
+        margin-bottom: 16px;
+    }
+
+    .course-card h3 {
+        margin: 0 0 8px 0;
+        font-size: 1.5em;
+        color: #333;
+    }
+
+    .course-card p {
+        margin: 0 0 20px 0;
+        color: #666;
+        flex-grow: 1;
+    }
+
+    .course-level {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: #FFE0E0;
+        color: #FF5757;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .video-container {
+        margin-top: 15px;
+        width: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .thumbnail-container {
+        position: relative;
+        cursor: pointer;
+        width: 100%;
+        padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        background: #f0f0f0;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .thumbnail-container img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+        transition: transform 0.3s ease;
+    }
+
+    .thumbnail-container:hover img {
+        transform: scale(1.05);
+    }
+
+    .play-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60px;
+        height: 40px;
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .play-overlay i {
+        color: #FF0000;
+        font-size: 24px;
+    }
+
+    .thumbnail-container:hover .play-overlay {
+        background: rgba(0, 0, 0, 0.8);
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .course-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: #FF5757;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        font-weight: 500;
+        margin-top: 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .course-button:hover {
+        background: #E04242;
+        transform: translateY(-2px);
+        text-decoration: none;
+        color: white;
+    }
+
+    .course-meta {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        color: #777;
+        font-size: 0.9rem;
+    }
+
+    .course-meta span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .mt-5 {
+        margin-top: 3rem;
+    }
+
+    h2 {
+        padding-left: 24px;
+        color: #333;
+        font-size: 1.8em;
+        margin-bottom: 0;
+    }
+
+    /* Chatbot Styles */
+    .chatbot-toggle {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 65px;
+        height: 65px;
+        background: linear-gradient(135deg, #4A6FFF 0%, #3557E5 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(74, 111, 255, 0.3);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 10001;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .chatbot-toggle::before {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+        z-index: -1;
+        transition: opacity 0.3s ease;
+        opacity: 0;
+    }
+
+    .chatbot-toggle:hover::before {
+        opacity: 1;
+    }
+
+    .chatbot-toggle i {
+        color: white;
+        font-size: 26px;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        transition: transform 0.3s ease;
+    }
+
+    .chatbot-toggle:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 8px 25px rgba(74, 111, 255, 0.4);
+    }
+
+    .chatbot-toggle:hover i {
+        transform: scale(1.1);
+    }
+
+    .chatbot-toggle::after {
+        content: 'AI Assistant';
+        position: absolute;
+        right: 80px;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        opacity: 0;
+        transform: translateX(10px);
+        transition: all 0.3s ease;
+        pointer-events: none;
+        white-space: nowrap;
+    }
+
+    .chatbot-toggle:hover::after {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .chatbot-container {
+        position: fixed;
+        bottom: 100px;
+        right: 30px;
+        width: 380px;
+        height: 550px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        transform: scale(0);
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 10000;
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        max-height: calc(100vh - 150px);
+    }
+
+    .chatbot-container.active {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    .chatbot-header {
+        padding: 20px;
+        background: linear-gradient(135deg, #4A6FFF 0%, #3557E5 100%);
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .chatbot-header h3 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .chatbot-header h3::before {
+        content: '🤖';
+        font-size: 20px;
+    }
+
+    .close-chat {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: white;
+        cursor: pointer;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .close-chat:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: rotate(90deg);
+    }
+
+    .chat-messages {
+        flex-grow: 1;
+        padding: 20px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        background: #F8F9FA;
+        max-height: calc(100% - 140px);
+    }
+
+    .chat-messages::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .chat-messages::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .chat-messages::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 3px;
+    }
+
+    .message {
+        max-width: 85%;
+        padding: 16px;
+        border-radius: 15px;
+        margin-bottom: 10px;
+        word-wrap: break-word;
+        line-height: 1.5;
+        position: relative;
+        animation: messageSlide 0.3s ease forwards;
+        font-size: 15px;
+    }
+
+    @keyframes messageSlide {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .message.user {
+        background: linear-gradient(135deg, #4A6FFF 0%, #3557E5 100%);
+        color: white;
+        align-self: flex-end;
+        border-bottom-right-radius: 5px;
+        box-shadow: 0 2px 8px rgba(74, 111, 255, 0.2);
+    }
+
+    .message.bot {
+        background: white;
+        align-self: flex-start;
+        border-bottom-left-radius: 5px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        white-space: pre-wrap;
+    }
+
+    /* Add styles for formatted elements in bot messages */
+    .message.bot pre {
+        background: #f8f9fa;
+        padding: 12px;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin: 8px 0;
+        font-family: 'Courier New', monospace;
+    }
+
+    .message.bot code {
+        background: #f1f3f5;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+    }
+
+    .message.bot ul, .message.bot ol {
+        margin: 8px 0;
+        padding-left: 24px;
+    }
+
+    .message.bot li {
+        margin: 4px 0;
+    }
+
+    .message.bot p {
+        margin: 8px 0;
+    }
+
+    .message.bot h1, .message.bot h2, .message.bot h3, .message.bot h4 {
+        margin: 16px 0 8px 0;
+        font-weight: 600;
+    }
+
+    .message.bot blockquote {
+        border-left: 4px solid #4A6FFF;
+        margin: 8px 0;
+        padding: 8px 16px;
+        background: #f8f9fa;
+        font-style: italic;
+    }
+
+    .message.bot table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 8px 0;
+    }
+
+    .message.bot th, .message.bot td {
+        border: 1px solid #dee2e6;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .message.bot th {
+        background: #f8f9fa;
+    }
+
+    /* Add a loading indicator for bot responses */
+    .message.bot.typing {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .typing-dot {
+        width: 8px;
+        height: 8px;
+        background: #4A6FFF;
+        border-radius: 50%;
+        animation: typingAnimation 1.4s infinite;
+        opacity: 0.6;
+    }
+
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typingAnimation {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-4px); }
+    }
+
+    .chat-input {
+        padding: 20px;
+        background: white;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        display: flex;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .chat-input input {
+        flex-grow: 1;
+        padding: 12px 20px;
+        border: 2px solid rgba(0, 0, 0, 0.1);
+        border-radius: 25px;
+        outline: none;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        background: #F8F9FA;
+    }
+
+    .chat-input input:focus {
+        border-color: #4A6FFF;
+        background: white;
+        box-shadow: 0 0 0 4px rgba(74, 111, 255, 0.1);
+    }
+
+    .chat-input button {
+        background: linear-gradient(135deg, #4A6FFF 0%, #3557E5 100%);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(74, 111, 255, 0.2);
+    }
+
+    .chat-input button i {
+        font-size: 18px;
+        transition: transform 0.3s ease;
+    }
+
+    .chat-input button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(74, 111, 255, 0.3);
+    }
+
+    .chat-input button:hover i {
+        transform: translateX(2px);
+    }
+
+    /* Add styles for voice button */
+    .voice-btn {
+        background: linear-gradient(135deg, #4A6FFF 0%, #3557E5 100%);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(74, 111, 255, 0.2);
+    }
+
+    .voice-btn.listening {
+        background: linear-gradient(135deg, #FF4A4A 0%, #E53535 100%);
+        animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+            box-shadow: 0 4px 15px rgba(255, 74, 74, 0.2);
+        }
+        50% {
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(255, 74, 74, 0.4);
+        }
+        100% {
+            transform: scale(1);
+            box-shadow: 0 4px 15px rgba(255, 74, 74, 0.2);
+        }
+    }
+
+    .voice-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(74, 111, 255, 0.3);
+    }
+
+    .voice-btn i {
+        font-size: 18px;
+        transition: transform 0.3s ease;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+        .chatbot-container {
+            width: 90%;
+            height: 80vh;
+            bottom: 10vh;
+            right: 5%;
+            border-radius: 20px;
+            max-height: 80vh;
+        }
+
+        .chatbot-toggle {
+            bottom: 20px;
+            right: 20px;
+        }
+
+        .chat-messages {
+            max-height: calc(80vh - 140px);
+        }
+    }
+
+    /* Add transition for main content */
+    main {
+        transition: margin-right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* Add overlay styles */
+    .chat-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 9999;
+        pointer-events: none;
+    }
+
+    .chat-overlay.active {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    /* Ensure chatbot is above overlay */
+    .chatbot-container {
+        z-index: 10000;
+    }
+
+    /* Ensure toggle is above overlay */
+    .chatbot-toggle {
+        z-index: 10001;
+    }
+
+    .chat-open {
+        overflow: hidden;
+    }
+
+    /* Ensure main content stays behind overlay */
+    .dashboard-content {
+        position: relative;
+        z-index: 1;
+    }
+    </style>
+</body>
+
+</html>

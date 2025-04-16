@@ -1,0 +1,90 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color:#007bff; /* Light background for better contrast */
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+    padding: 15px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar li {
+    margin-right: 20px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    transition: background-color 0.3s;
+}
+
+.navbar a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Lighten on hover */
+}
+
+.navbar .active {
+    border-bottom: 2px solid #fff; /* Indicate the active page */
+}
+
+/* About Container Styles */
+.about-container {
+    background-color: #fff; /* White background for content */
+    border-radius: 8px;
+    padding: 40px; /* More padding for spacious feel */
+    margin: 20px auto; /* Center the container */
+    max-width: 800px; /* Limit max width */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.about-container h1 {
+    color: #333;
+    font-size: 2.5em; /* Larger heading */
+    margin-bottom: 20px; /* Space below heading */
+}
+
+.about-container h2 {
+    color: #007bff; /* Use primary color for subheadings */
+    font-size: 1.8em; /* Slightly smaller than main heading */
+    margin-top: 30px; /* Space above subheadings */
+    margin-bottom: 10px; /* Space below subheadings */
+}
+
+.about-container p {
+    color: #555; /* Dark gray text for body */
+    line-height: 1.6; /* Improved line height for readability */
+    margin-bottom: 20px; /* Space below paragraphs */
+}
+
+.about-container ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-bottom: 20px; /* Space below lists */
+}
+
+.about-container li {
+    margin-bottom: 10px; /* Space between list items */
+}
+
+/* Footer Styles */
+footer {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #007bff; /* Match the navbar */
+    color: white;
+    position: relative; /* Position relative to container */
+    bottom: 0;
+    width: 100%; /* Full width footer */
+}

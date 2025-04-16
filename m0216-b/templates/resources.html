@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources - Educational AI Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/resources.css') }}">
+</head>
+<body>
+    <!-- Replace the navbar placeholder with this -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-graduation-cap"></i>
+            <span>E-LEARNING</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('dashboard') }}" class="nav-link">
+                <i class="fas fa-home"></i> Dashboard
+            </a></li>
+            <li><a href="{{ url_for('resources') }}" class="nav-link active">
+                <i class="fas fa-book"></i> Resources
+            </a></li>
+            <li><a href="{{ url_for('community') }}" class="nav-link">
+                <i class="fas fa-users"></i> Community
+            </a></li>
+        </ul>
+        <div class="nav-profile">
+            <span>Welcome, {{ username }}</span>
+            <a href="{{ url_for('logout') }}" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+            </a>
+        </div>
+    </nav>
+
+    <main class="resources-content">
+        <div class="resources-header">
+            <h1>Learning Resources</h1>
+            <p>Access comprehensive study materials, tutorials, and practice exercises</p>
+        </div>
+
+        <div class="resources-search">
+            <input type="text" id="searchInput" placeholder="Search resources...">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="study_materials">Study Materials</button>
+            <button class="filter-btn" data-filter="video_tutorials">Video Tutorials</button>
+            <button class="filter-btn" data-filter="practice_exercises">Practice Exercises</button>
+        </div>
+
+        <section class="resources-section" id="study_materials">
+            <h2>Study Materials</h2>
+            <div class="resources-grid">
+                {% for material in resources.study_materials %}
+                <div class="resource-card" data-secure="true">
+                    <div class="resource-icon">
+                        <i class="{{ material.icon }}"></i>
+                    </div>
+                    <div class="resource-content">
+                        <h3>{{ material.title }}</h3>
+                        <p>{{ material.description }}</p>
+                        <span class="resource-type">{{ material.type }}</span>
+                        <a href="{{ material.link }}" 
+                           class="resource-btn" 
+                           target="_blank" 
+                           rel="noopener noreferrer">
+                            Access Material
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="resources-section" id="video_tutorials">
+            <h2>Video Tutorials</h2>
+            <div class="resources-grid">
+                {% for video in resources.video_tutorials %}
+                <div class="resource-card" data-secure="true">
+                    <div class="resource-icon">
+                        <i class="{{ video.icon }}"></i>
+                    </div>
+                    <div class="resource-content">
+                        <h3>{{ video.title }}</h3>
+                        <p>{{ video.description }}</p>
+                        <span class="resource-duration">{{ video.duration }}</span>
+                        <a href="{{ video.link }}" class="resource-btn" target="_blank" rel="noopener noreferrer">Watch Tutorial</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="resources-section" id="practice_exercises">
+            <h2>Practice Exercises</h2>
+            <div class="resources-grid">
+                {% for exercise in resources.practice_exercises %}
+                <div class="resource-card" data-secure="true">
+                    <div class="resource-icon">
+                        <i class="{{ exercise.icon }}"></i>
+                    </div>
+                    <div class="resource-content">
+                        <h3>{{ exercise.title }}</h3>
+                        <p>{{ exercise.description }}</p>
+                        <span class="resource-difficulty">{{ exercise.difficulty }}</span>
+                        <a href="{{ exercise.link }}" class="resource-btn" target="_blank" rel="noopener noreferrer">Start Practice</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const resourceCards = document.querySelectorAll('.resource-card');
+
+            // Search functionality
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                resourceCards.forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const description = card.querySelector('p').textContent.toLowerCase();
+                    const isVisible = title.includes(searchTerm) || description.includes(searchTerm);
+                    card.style.display = isVisible ? 'flex' : 'none';
+                });
+            });
+
+            // Filter functionality
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const filter = this.dataset.filter;
+                    
+                    // Update active button
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Show/hide sections
+                    document.querySelectorAll('.resources-section').forEach(section => {
+                        if (filter === 'all' || section.id === filter) {
+                            section.style.display = 'block';
+                        } else {
+                            section.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

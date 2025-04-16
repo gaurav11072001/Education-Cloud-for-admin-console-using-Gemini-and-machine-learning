@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - e-learning course</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+    <style>
+        /* Enhanced styles to match login page */
+        :root {
+            --primary: #476fff;
+            --primary-dark: #3557D6;
+            --accent: #FF5757;
+            --text-dark: #bebecd;
+            --text-light: #8990a5;
+            --text-subtitle: #6e7b97;
+            --background: #f5f7ff;
+            --card-bg: rgba(55, 47, 54, 0.634);
+            --input-bg: #f8f9fc;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        html, body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url("{{ url_for('static', filename='images/learning.jpg') }}") no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+            position: relative;
+            overflow-y: auto;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 0;
+        }
+        
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100%;
+            width: 100%;
+            padding: 60px 0;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Logo styling - positioned outside the card */
+        .logo-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: -35px;
+            position: relative;
+            z-index: 3;
+        }
+        
+        .logo-wrapper {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #4A6FFF, #45E3FF);
+            color: white;
+            font-size: 2rem;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(5px);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        
+        .form-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-top: 20px;
+        }
+        
+        .form-header h2 {
+            margin: 0;
+            color: var(--text-dark);
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        .form-header p {
+            margin: 8px 0 0;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+        
+        .alert {
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .alert-error {
+            background-color: rgba(255, 87, 87, 0.1);
+            color: #e53e3e;
+        }
+        
+        .alert-success {
+            background-color: rgba(72, 187, 120, 0.1);
+            color: #38a169;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: none;
+        }
+        
+        .form-group input, 
+        .password-input {
+            width: 100%;
+            padding: 16px 15px 16px 45px;
+            background: var(--input-bg);
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            color: #333;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(74, 111, 255, 0.2);
+        }
+        
+        .form-group input::placeholder {
+            color: var(--text-light);
+        }
+        
+        .form-group {
+            position: relative;
+        }
+        
+        .form-group i:not(.toggle-password) {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+        
+        .password-input {
+            position: relative;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .password-input input {
+            padding: 16px 45px 16px 45px;
+            border: none;
+            width: 100%;
+            background: transparent;
+        }
+        
+        .password-input input:focus {
+            outline: none;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--text-light);
+            z-index: 10;
+        }
+        
+        .register-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: var(--primary);
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(74, 111, 255, 0.3);
+        }
+        
+        .register-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(74, 111, 255, 0.4);
+        }
+        
+        .register-btn i {
+            font-size: 0.9rem;
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 25px;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .login-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            justify-content: center;
+            transition: color 0.3s ease;
+        }
+        
+        .login-link:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+        
+        /* Hide background shapes */
+        .background-shapes {
+            display: none;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Media queries for responsive design */
+        @media screen and (max-height: 700px) {
+            .page-wrapper {
+                padding: 40px 0;
+                justify-content: flex-start;
+            }
+            
+            .form-container {
+                padding: 30px;
+            }
+            
+            .logo-wrapper {
+                width: 60px;
+                height: 60px;
+                font-size: 1.8rem;
+            }
+            
+            .form-header h2 {
+                font-size: 1.6rem;
+            }
+            
+            .form-header p {
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .form-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <div class="logo-container">
+            <div class="logo-wrapper">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+    </div>
+
+    <div class="container">
+        <div class="form-container">
+            <div class="form-header">
+                <h2>Create Account</h2>
+                    <p>Join our e-learning platform</p>
+            </div>
+
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert {{ 'alert-error' if 'error' in message.lower() else 'alert-success' }}">
+                            <i class="fas {{ 'fa-exclamation-circle' if 'error' in message.lower() else 'fa-check-circle' }}"></i>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="/register" class="register-form">
+                <div class="form-group">
+                        <label for="username">Username</label>
+                        <i class="fas fa-user"></i>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        required 
+                        autocomplete="off"
+                            placeholder="Username"
+                    >
+                </div>
+
+                <div class="form-group">
+                        <label for="password">Password</label>
+                        <i class="fas fa-lock"></i>
+                    <div class="password-input">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            required
+                                placeholder="Password"
+                        >
+                        <i class="fas fa-eye toggle-password" onclick="togglePassword()"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="register-btn">
+                    <i class="fas fa-user-plus"></i>
+                        Create Account & Access Dashboard
+                </button>
+
+                <div class="form-footer">
+                    <p>Already have an account?</p>
+                    <a href="{{ url_for('login') }}" class="login-link">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Login here
+                    </a>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.querySelector('.toggle-password');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
+        // Add animation to form elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const formElements = document.querySelectorAll('.form-group, .register-btn, .form-footer');
+            formElements.forEach((element, index) => {
+                element.style.animation = `slideUp 0.5s ease forwards ${index * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+
+</html>

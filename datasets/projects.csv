@@ -1,0 +1,31 @@
+course_id,project_name,difficulty
+1000,Web App,Easy
+1000,API Development,Hard
+1000,Machine Learning Model,Easy
+1001,Web App,Hard
+1001,Data Analysis,Easy
+1001,Machine Learning Model,Easy
+1002,Data Analysis,Medium
+1002,Machine Learning Model,Medium
+1002,Web App,Easy
+1003,SPA Development,Medium
+1003,Real-time Applications,Medium
+1003,Interactive UI,Medium
+1004,SPA Development,Hard
+1004,Real-time Applications,Easy
+1004,Interactive UI,Hard
+1005,SPA Development,Easy
+1005,Interactive UI,Hard
+1005,Real-time Applications,Hard
+1006,Data Analysis,Easy
+1006,Neural Networks,Hard
+1006,Predictive Models,Easy
+1007,Predictive Models,Hard
+1007,Data Analysis,Easy
+1007,Neural Networks,Medium
+1008,Serverless Apps,Medium
+1008,Container Orchestration,Medium
+1008,Cloud Deployment,Medium
+1009,Cloud Deployment,Easy
+1009,Container Orchestration,Easy
+1009,Serverless Apps,Easy

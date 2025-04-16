@@ -1,0 +1,101 @@
+course_id,module_number,title,duration_hours,content_type,has_certificate
+1000,1,Module 1: Data Science,3,Project,True
+1000,2,Module 2: Algorithms,4,Interactive,False
+1000,3,Module 3: Web Development,8,Interactive,True
+1000,4,Module 4: OOP,4,Quiz,True
+1000,5,Module 5: Data Structures,5,Quiz,True
+1000,6,Module 6: Data Structures,5,Project,True
+1000,7,Module 7: Data Science,3,Interactive,True
+1000,8,Module 8: Data Science,5,Quiz,True
+1000,9,Module 9: Web Development,8,Interactive,False
+1000,10,Module 10: OOP,6,Interactive,True
+1000,11,Module 11: Web Development,8,Quiz,True
+1001,1,Module 1: Web Development,4,Interactive,False
+1001,2,Module 2: Web Development,7,Quiz,False
+1001,3,Module 3: Web Development,3,Quiz,False
+1001,4,Module 4: Data Structures,5,Video,False
+1001,5,Module 5: Web Development,6,Video,True
+1001,6,Module 6: OOP,3,Quiz,True
+1001,7,Module 7: Web Development,4,Project,True
+1001,8,Module 8: Algorithms,4,Video,True
+1001,9,Module 9: Data Science,3,Quiz,True
+1001,10,Module 10: Algorithms,6,Interactive,True
+1001,11,Module 11: Data Science,7,Quiz,True
+1001,12,Module 12: Data Science,3,Quiz,False
+1002,1,Module 1: Data Science,6,Video,False
+1002,2,Module 2: Web Development,7,Quiz,True
+1002,3,Module 3: Web Development,4,Project,False
+1002,4,Module 4: OOP,4,Video,False
+1002,5,Module 5: Web Development,6,Interactive,True
+1002,6,Module 6: Web Development,7,Project,False
+1002,7,Module 7: Algorithms,3,Quiz,False
+1002,8,Module 8: Algorithms,5,Video,False
+1002,9,Module 9: Data Structures,3,Interactive,False
+1003,1,Module 1: DOM Manipulation,6,Video,True
+1003,2,Module 2: Web APIs,5,Quiz,False
+1003,3,Module 3: ES6+,6,Video,True
+1003,4,Module 4: Frontend Development,5,Project,True
+1003,5,Module 5: Web APIs,6,Interactive,False
+1003,6,Module 6: ES6+,6,Quiz,True
+1003,7,Module 7: DOM Manipulation,4,Quiz,True
+1003,8,Module 8: Frontend Development,5,Video,False
+1004,1,Module 1: ES6+,4,Quiz,True
+1004,2,Module 2: Web APIs,5,Interactive,False
+1004,3,Module 3: Async Programming,3,Quiz,True
+1004,4,Module 4: Async Programming,6,Quiz,False
+1004,5,Module 5: Web APIs,6,Video,False
+1004,6,Module 6: Web APIs,7,Video,False
+1004,7,Module 7: ES6+,4,Quiz,False
+1004,8,Module 8: ES6+,4,Video,False
+1004,9,Module 9: Frontend Development,5,Interactive,False
+1005,1,Module 1: Web APIs,3,Interactive,False
+1005,2,Module 2: ES6+,7,Video,True
+1005,3,Module 3: Async Programming,6,Project,False
+1005,4,Module 4: Web APIs,5,Video,False
+1005,5,Module 5: Frontend Development,7,Project,True
+1005,6,Module 6: DOM Manipulation,6,Interactive,True
+1005,7,Module 7: DOM Manipulation,8,Quiz,False
+1005,8,Module 8: Async Programming,4,Interactive,False
+1006,1,Module 1: Machine Learning,5,Project,True
+1006,2,Module 2: Statistics,5,Interactive,False
+1006,3,Module 3: Statistics,3,Quiz,False
+1006,4,Module 4: Big Data,6,Quiz,True
+1006,5,Module 5: Statistics,8,Interactive,True
+1006,6,Module 6: Big Data,5,Interactive,False
+1006,7,Module 7: Deep Learning,8,Project,False
+1006,8,Module 8: Big Data,8,Project,True
+1007,1,Module 1: Deep Learning,6,Video,False
+1007,2,Module 2: Machine Learning,7,Interactive,True
+1007,3,Module 3: Machine Learning,4,Quiz,True
+1007,4,Module 4: Big Data,5,Quiz,True
+1007,5,Module 5: Deep Learning,7,Project,False
+1007,6,Module 6: Deep Learning,5,Interactive,True
+1007,7,Module 7: Deep Learning,7,Quiz,True
+1007,8,Module 8: Deep Learning,3,Project,False
+1007,9,Module 9: Deep Learning,5,Quiz,True
+1007,10,Module 10: Deep Learning,5,Video,False
+1007,11,Module 11: Big Data,3,Video,True
+1007,12,Module 12: Deep Learning,6,Quiz,False
+1008,1,Module 1: Cloud Architecture,5,Video,False
+1008,2,Module 2: Microservices,4,Project,True
+1008,3,Module 3: Cloud Architecture,3,Project,True
+1008,4,Module 4: Microservices,6,Interactive,False
+1008,5,Module 5: Serverless,6,Video,True
+1008,6,Module 6: DevOps,4,Interactive,False
+1008,7,Module 7: Microservices,6,Interactive,False
+1008,8,Module 8: Containerization,3,Quiz,True
+1008,9,Module 9: Serverless,7,Project,True
+1008,10,Module 10: Containerization,4,Quiz,False
+1008,11,Module 11: DevOps,4,Video,True
+1009,1,Module 1: Cloud Architecture,5,Quiz,False
+1009,2,Module 2: Microservices,7,Interactive,False
+1009,3,Module 3: Containerization,6,Video,True
+1009,4,Module 4: Serverless,4,Project,True
+1009,5,Module 5: DevOps,5,Interactive,False
+1009,6,Module 6: Containerization,4,Project,False
+1009,7,Module 7: Cloud Architecture,8,Quiz,True
+1009,8,Module 8: Microservices,6,Interactive,False
+1009,9,Module 9: Microservices,4,Quiz,True
+1009,10,Module 10: Containerization,5,Video,True
+1009,11,Module 11: Serverless,5,Video,False
+1009,12,Module 12: DevOps,3,Interactive,False

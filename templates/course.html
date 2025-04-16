@@ -1,0 +1,15 @@
+{% for related in related_courses %}
+    <div class="related-course">
+        <h3>{{ related.title }}</h3>
+        <p>{{ related.short_desc }}</p>
+        <p>Related Topics: {{ related.topics | join(', ') }}</p>
+        <p>Similarity: {{ related.similarity }}%</p>
+    </div>
+{% endfor %}
+
+<form id="preferences-form" method="POST" action="{{ url_for('update_course_preferences') }}">
+    <input type="hidden" name="course_type" value="{{ course_type }}">
+    <input type="hidden" name="subject" value="{{ subject }}">
+    <!-- Add other preference inputs here -->
+    <button type="submit">Update Recommendations</button>
+</form> 

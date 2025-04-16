@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion - Educational AI Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/discussion.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <!-- Same navbar as other pages -->
+        <div class="nav-brand">
+            <i class="fas fa-graduation-cap"></i>
+            <span>E-LEARNING</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('dashboard') }}" class="nav-link">
+                <i class="fas fa-home"></i> Dashboard
+            </a></li>
+            <li><a href="{{ url_for('chat') }}" class="nav-link">
+                <i class="fas fa-robot"></i> AI Assistant
+            </a></li>
+            <li><a href="{{ url_for('resources') }}" class="nav-link">
+                <i class="fas fa-book"></i> Resources
+            </a></li>
+            <li><a href="{{ url_for('community') }}" class="nav-link active">
+                <i class="fas fa-users"></i> Community
+            </a></li>
+        </ul>
+        <div class="nav-profile">
+            <span>Welcome, {{ username }}</span>
+            <a href="{{ url_for('logout') }}" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+            </a>
+        </div>
+    </nav>
+
+    <main class="discussion-content">
+        <div class="discussion-container">
+            <div class="discussion-header">
+                <h1>{{ discussion.title }}</h1>
+                <div class="discussion-meta">
+                    <span class="author">Posted by {{ discussion.user.username }}</span>
+                    <span class="date">{{ discussion.created_at.strftime('%B %d, %Y') }}</span>
+                </div>
+            </div>
+
+            <div class="discussion-body">
+                <p>{{ discussion.content }}</p>
+            </div>
+
+            <div class="discussion-actions">
+                <button class="like-btn" data-id="{{ discussion.id }}">
+                    <i class="fas fa-heart"></i>
+                    <span>{{ discussion.likes }}</span>
+                </button>
+                <button class="share-btn">
+                    <i class="fas fa-share"></i>
+                    Share
+                </button>
+            </div>
+
+            <div class="comments-section">
+                <h2>Comments ({{ discussion.comments|length }})</h2>
+                
+                <form class="comment-form" id="commentForm">
+                    <textarea placeholder="Add your comment..." required></textarea>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Post Comment
+                    </button>
+                </form>
+
+                <div class="comments-list">
+                    {% for comment in discussion.comments %}
+                    <div class="comment">
+                        <div class="comment-header">
+                            <span class="comment-author">{{ comment.user.username }}</span>
+                            <span class="comment-date">{{ comment.created_at.strftime('%B %d, %Y') }}</span>
+                        </div>
+                        <div class="comment-content">
+                            {{ comment.content }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const commentForm = document.getElementById('commentForm');
+            const likeBtn = document.querySelector('.like-btn');
+
+            // Handle comment submission
+            commentForm.onsubmit = async (e) => {
+                e.preventDefault();
+                const content = commentForm.querySelector('textarea').value;
+
+                try {
+                    const response = await fetch('/add_comment', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `discussion_id={{ discussion.id }}&content=${encodeURIComponent(content)}`
+                    });
+
+                    const data = await response.json();
+                    if (data.status === 'success') {
+                        location.reload();
+                    } else {
+                        alert(data.message);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            };
+
+            // Handle like button
+            likeBtn.onclick = async () => {
+                try {
+                    const response = await fetch(`/like_discussion/{{ discussion.id }}`, {
+                        method: 'POST'
+                    });
+                    const data = await response.json();
+                    if (data.status === 'success') {
+                        const likeCount = likeBtn.querySelector('span');
+                        likeCount.textContent = data.likes;
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            };
+        });
+    </script>
+</body>
+</html> 

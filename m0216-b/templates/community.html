@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Community - Educational AI Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/community.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <!-- Same navbar as other pages -->
+        <div class="nav-brand">
+            <i class="fas fa-graduation-cap"></i>
+            <span>EduCloud AI</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('dashboard') }}" class="nav-link">
+                <i class="fas fa-home"></i> Dashboard
+            </a></li>
+            <li><a href="{{ url_for('resources') }}" class="nav-link">
+                <i class="fas fa-book"></i> Resources
+            </a></li>
+            <li><a href="{{ url_for('community') }}" class="nav-link active">
+                <i class="fas fa-users"></i> Community
+            </a></li>
+        </ul>
+        <div class="nav-profile">
+            <span>Welcome, {{ username }}</span>
+            <a href="{{ url_for('logout') }}" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+            </a>
+        </div>
+    </nav>
+
+    <main class="community-content">
+        <div class="community-header">
+            <h1>Learning Community</h1>
+            <p>Connect with peers and share knowledge</p>
+            <button id="createDiscussionBtn" class="primary-btn">
+                <i class="fas fa-plus"></i> Start New Discussion
+            </button>
+        </div>
+
+        <div class="discussions-container">
+            {% for discussion in discussions %}
+            <div class="discussion-card">
+                <div class="discussion-header">
+                    <h3>{{ discussion.title }}</h3>
+                    <span class="timestamp">{{ discussion.created_at.strftime('%B %d, %Y') }}</span>
+                </div>
+                <p class="discussion-content">{{ discussion.content }}</p>
+                <div class="discussion-footer">
+                    <button class="like-btn" data-id="{{ discussion.id }}">
+                        <i class="fas fa-heart"></i>
+                        <span>{{ discussion.likes }}</span>
+                    </button>
+                    <button class="comment-btn" data-id="{{ discussion.id }}">
+                        <i class="fas fa-comment"></i>
+                        <span>{{ discussion.comments|length }}</span>
+                    </button>
+                </div>
+                <div class="comments-section" id="comments-{{ discussion.id }}">
+                    {% for comment in discussion.comments %}
+                    <div class="comment">
+                        <strong>{{ comment.user.username }}</strong>
+                        <p>{{ comment.content }}</p>
+                        <span class="timestamp">{{ comment.created_at.strftime('%B %d, %Y') }}</span>
+                    </div>
+                    {% endfor %}
+                    <form class="comment-form" data-discussion-id="{{ discussion.id }}">
+                        <div class="comment-input-wrapper">
+                            <input type="text" name="content" placeholder="Add a comment..." required>
+                            <input type="hidden" name="discussion_id" value="{{ discussion.id }}">
+                        </div>
+                        <button type="submit" class="comment-submit-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <!-- Create Discussion Modal -->
+    <div id="discussionModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Create New Discussion</h2>
+            <form id="discussionForm">
+                <div class="form-group">
+                    <label for="discussionTitle">Title</label>
+                    <input type="text" id="discussionTitle" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="discussionContent">Content</label>
+                    <textarea id="discussionContent" name="content" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Create Discussion</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('discussionModal');
+            const createBtn = document.getElementById('createDiscussionBtn');
+            const closeBtn = document.querySelector('.close');
+            const discussionForm = document.getElementById('discussionForm');
+            const commentBtns = document.querySelectorAll('.comment-btn');
+            const commentForms = document.querySelectorAll('.comment-form');
+            const likeBtns = document.querySelectorAll('.like-btn');
+
+            // Open modal
+            createBtn.onclick = function() {
+                modal.style.display = "block";
+            }
+
+            // Close modal
+            closeBtn.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            // Close modal when clicking outside
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            // Handle form submission
+            discussionForm.onsubmit = async function(e) {
+                e.preventDefault();
+                
+                try {
+                    const response = await fetch('/create_discussion', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: new URLSearchParams({
+                            'title': document.getElementById('discussionTitle').value,
+                            'content': document.getElementById('discussionContent').value
+                        })
+                    });
+
+                    const data = await response.json();
+                    console.log('Response:', data);  // Debug log
+                    
+                    if (data.status === 'success') {
+                        window.location.reload();
+                    } else {
+                        alert(data.message || 'An error occurred');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An error occurred while creating the discussion');
+                }
+            };
+
+            // Toggle comments section
+            commentBtns.forEach(btn => {
+                btn.onclick = () => {
+                    const discussionId = btn.dataset.id;
+                    const commentsSection = document.getElementById(`comments-${discussionId}`);
+                    
+                    // Toggle visibility with smooth transition
+                    if (commentsSection.style.maxHeight) {
+                        commentsSection.style.maxHeight = null;
+                        commentsSection.style.opacity = '0';
+                    } else {
+                        commentsSection.style.maxHeight = commentsSection.scrollHeight + "px";
+                        commentsSection.style.opacity = '1';
+                    }
+                };
+            });
+
+            // Handle comment submission
+            commentForms.forEach(form => {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const discussionId = form.dataset.discussionId;
+                    const contentInput = form.querySelector('input[name="content"]');
+                    const content = contentInput.value.trim();
+                    
+                    if (!content) {
+                        alert('Please enter a comment');
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch('/add_comment', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                discussion_id: discussionId,
+                                content: content
+                            })
+                        });
+
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            throw new Error(errorData.error || 'Failed to add comment');
+                        }
+
+                        const data = await response.json();
+                        
+                        // Create new comment element
+                        const commentList = form.closest('.comments-section');
+                        const commentElement = document.createElement('div');
+                        commentElement.className = 'comment';
+                        commentElement.innerHTML = `
+                            <strong>${data.username}</strong>
+                            <p>${data.content}</p>
+                            <span class="timestamp">Just now</span>
+                        `;
+                        
+                        // Insert before the form
+                        commentList.insertBefore(commentElement, form);
+                        
+                        // Clear input
+                        contentInput.value = '';
+                        
+                        // Update comment count
+                        const commentBtn = document.querySelector(`.comment-btn[data-id="${discussionId}"]`);
+                        const countSpan = commentBtn.querySelector('span');
+                        countSpan.textContent = parseInt(countSpan.textContent) + 1;
+                        
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert(error.message);
+                    }
+                });
+            });
+
+            // Handle likes
+            likeBtns.forEach(btn => {
+                btn.onclick = async function() {
+                    const discussionId = this.dataset.id;
+                    try {
+                        const response = await fetch(`/like_discussion/${discussionId}`, {
+                            method: 'POST'
+                        });
+                        const data = await response.json();
+                        if (data.status === 'success') {
+                            this.querySelector('span').textContent = data.likes;
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                    }
+                };
+            });
+        });
+    </script>
+
+    <style>
+    .comment {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+    }
+
+    .comment strong {
+        color: var(--primary-color);
+        margin-right: 0.5rem;
+    }
+
+    .comment p {
+        margin: 0.5rem 0;
+        color: var(--text-primary);
+    }
+
+    .comment .timestamp {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+    }
+
+    .comment-form {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .comment-form input {
+        flex: 1;
+        padding: 0.8rem;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+
+    .comment-form button {
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.8rem 1.2rem;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .comment-form button:hover {
+        background: var(--secondary-color);
+    }
+
+    /* Add these styles for smooth transitions */
+    .comments-section {
+        max-height: none;
+        opacity: 1;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #eee;
+    }
+
+    .discussion-card {
+        margin-bottom: 2rem;
+        padding: 2rem;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-content {
+        background-color: white;
+        padding: 2rem;
+        width: 90%;
+        max-width: 500px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        position: relative;
+        margin: 0 auto;
+    }
+
+    .modal-content h2 {
+        color: #2C3E50;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+    }
+
+    .close {
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        font-size: 1.5rem;
+        color: #7F8C8D;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+    }
+
+    .close:hover {
+        color: #2C3E50;
+        background-color: #f5f5f5;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #2C3E50;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.7rem;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-group textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #3B5AFB;
+        box-shadow: 0 0 0 2px rgba(59, 90, 251, 0.1);
+    }
+
+    .submit-btn {
+        background: #3B5AFB;
+        color: white;
+        padding: 0.7rem 1.5rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        margin-top: 1rem;
+    }
+
+    .submit-btn:hover {
+        background: #2A3FF3;
+        transform: translateY(-1px);
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .modal-content {
+            width: 95%;
+            padding: 1.5rem;
+            margin: 1rem;
+        }
+    }
+    </style>
+</body>
+</html> 
